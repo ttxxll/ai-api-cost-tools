@@ -1,0 +1,145 @@
+{
+  "meta": {
+    "siteName": "AI API 成本工具箱",
+    "siteDescription": "面向开发者的免费 AI API 成本计算器和 Token 预算规划工具。"
+  },
+  "nav": {
+    "home": "首页",
+    "tools": "工具",
+    "about": "关于",
+    "language": "语言"
+  },
+  "hero": {
+    "title": "AI API 成本计算器",
+    "subtitle": "估算和比较 Claude、GPT、Gemini、DeepSeek 的 API 调用成本",
+    "description": "免费在线计算器，帮助开发者和团队规划 AI API 预算、比较模型定价、优化 Token 使用。"
+  },
+  "tools": {
+    "claude": {
+      "name": "Claude API 成本计算器",
+      "description": "计算 Claude API 的调用成本，支持 Opus、Sonnet、Haiku 模型"
+    },
+    "gpt": {
+      "name": "GPT API 成本计算器",
+      "description": "计算 OpenAI GPT API 的调用成本，支持 GPT-4o、o1、o3 模型"
+    },
+    "gemini": {
+      "name": "Gemini API 成本计算器",
+      "description": "计算 Google Gemini API 的调用成本，支持 Pro、Flash、Flash-Lite 模型"
+    },
+    "deepseek": {
+      "name": "DeepSeek API 成本计算器",
+      "description": "计算 DeepSeek API 的调用成本，支持 V4-Flash、V4-Pro 模型"
+    },
+    "comparison": {
+      "name": "AI 模型价格对比",
+      "description": "横向比较 Claude、GPT、Gemini、DeepSeek 各模型的定价"
+    },
+    "budget": {
+      "name": "Token 预算规划器",
+      "description": "规划 AI API 预算，计算可支持的调用次数"
+    },
+    "monthly": {
+      "name": "AI 应用月成本计算器",
+      "description": "估算 AI 驱动应用的月度成本"
+    },
+    "batch": {
+      "name": "批量 API 成本估算器",
+      "description": "估算批量 API 处理任务的成本"
+    }
+  },
+  "calculator": {
+    "model": "模型",
+    "inputTokens": "输入 Token 数",
+    "outputTokens": "输出 Token 数",
+    "requestsPerCall": "每次调用请求数",
+    "callsPerDay": "每日调用次数",
+    "cacheHitRate": "缓存命中率",
+    "calculate": "计算",
+    "results": "计算结果",
+    "costPerCall": "单次调用成本",
+    "dailyCost": "每日成本",
+    "monthlyCost": "每月成本",
+    "inputCost": "输入成本",
+    "outputCost": "输出成本",
+    "totalCost": "总成本",
+    "tokens": "tokens",
+    "perMillionTokens": "每百万 tokens",
+    "usd": "美元"
+  },
+  "comparison": {
+    "title": "模型对比",
+    "selectModels": "选择要对比的模型",
+    "model": "模型",
+    "inputPrice": "输入价格",
+    "outputPrice": "输出价格",
+    "totalCost": "总成本",
+    "cheapest": "最便宜",
+    "mostExpensive": "最贵"
+  },
+  "budget": {
+    "title": "预算规划器",
+    "monthlyBudget": "月度预算",
+    "selectModel": "选择模型",
+    "avgInputTokens": "平均输入 Token 数",
+    "avgOutputTokens": "平均输出 Token 数",
+    "results": "预算结果",
+    "maxCalls": "每月最大调用次数",
+    "maxDailyCalls": "每日最大调用次数",
+    "costPerCall": "单次调用成本"
+  },
+  "monthly": {
+    "title": "月成本计算器",
+    "appType": "应用类型",
+    "chatbot": "聊天机器人",
+    "contentGeneration": "内容生成",
+    "codeAssistant": "代码助手",
+    "dataAnalysis": "数据分析",
+    "users": "预估用户数",
+    "callsPerUserPerDay": "每用户每日调用次数",
+    "results": "月成本估算",
+    "totalMonthlyCost": "月度总成本",
+    "costPerUser": "每用户成本",
+    "costPerDay": "每日成本"
+  },
+  "batch": {
+    "title": "批量成本估算器",
+    "taskCount": "任务数量",
+    "tokensPerTask": "每任务 Token 数",
+    "selectModel": "选择模型",
+    "results": "批量成本估算",
+    "totalCost": "总成本",
+    "totalTokens": "总 Token 数",
+    "estimatedTime": "预估时间"
+  },
+  "faq": {
+    "title": "常见问题",
+    "items": {
+      "accuracy": {
+        "question": "这些计算结果准确吗？",
+        "answer": "我们的计算器使用各厂商发布的最新定价。但实际成本可能因使用模式、缓存和厂商特定的计费规则而有所不同。"
+      },
+      "update": {
+        "question": "定价数据多久更新一次？",
+        "answer": "我们会在厂商宣布价格变更时更新数据。请始终以官方文档为准获取最新价格。"
+      },
+      "free": {
+        "question": "这些计算器免费吗？",
+        "answer": "是的，所有计算器完全免费使用，无需注册。"
+      },
+      "providers": {
+        "question": "支持哪些 AI 厂商？",
+        "answer": "目前支持 Anthropic (Claude)、OpenAI (GPT)、Google (Gemini) 和 DeepSeek。未来计划添加更多厂商。"
+      }
+    }
+  },
+  "footer": {
+    "disclaimer": "免责声明：计算结果基于公开定价的估算。实际成本可能有所不同。请始终以官方文档为准。",
+    "privacy": "隐私政策",
+    "contact": "联系我们",
+    "copyright": "AI API 成本工具箱"
+  },
+  "relatedTools": {
+    "title": "相关工具"
+  }
+}

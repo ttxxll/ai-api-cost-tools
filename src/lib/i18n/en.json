@@ -1,0 +1,145 @@
+{
+  "meta": {
+    "siteName": "AI API Cost Tools",
+    "siteDescription": "Free bilingual AI API cost calculators and token budget planners for developers."
+  },
+  "nav": {
+    "home": "Home",
+    "tools": "Tools",
+    "about": "About",
+    "language": "Language"
+  },
+  "hero": {
+    "title": "AI API Cost Calculators",
+    "subtitle": "Estimate and compare AI API costs across Claude, GPT, Gemini, and DeepSeek",
+    "description": "Free online calculators to help developers and teams plan AI API budgets, compare model pricing, and optimize token usage."
+  },
+  "tools": {
+    "claude": {
+      "name": "Claude API Cost Calculator",
+      "description": "Calculate Claude API costs for Opus, Sonnet, and Haiku models"
+    },
+    "gpt": {
+      "name": "GPT API Cost Calculator",
+      "description": "Calculate OpenAI GPT API costs for GPT-4o, o1, and o3 models"
+    },
+    "gemini": {
+      "name": "Gemini API Cost Calculator",
+      "description": "Calculate Google Gemini API costs for Pro, Flash, and Flash-Lite models"
+    },
+    "deepseek": {
+      "name": "DeepSeek API Cost Calculator",
+      "description": "Calculate DeepSeek API costs for V4-Flash and V4-Pro models"
+    },
+    "comparison": {
+      "name": "AI Model Price Comparison",
+      "description": "Compare pricing across Claude, GPT, Gemini, and DeepSeek models side by side"
+    },
+    "budget": {
+      "name": "Prompt Token Budget Planner",
+      "description": "Plan your AI API budget and calculate how many calls you can make"
+    },
+    "monthly": {
+      "name": "AI App Monthly Cost Calculator",
+      "description": "Estimate monthly costs for your AI-powered application"
+    },
+    "batch": {
+      "name": "Batch API Cost Estimator",
+      "description": "Estimate costs for batch API processing tasks"
+    }
+  },
+  "calculator": {
+    "model": "Model",
+    "inputTokens": "Input Tokens",
+    "outputTokens": "Output Tokens",
+    "requestsPerCall": "Requests per Call",
+    "callsPerDay": "Calls per Day",
+    "cacheHitRate": "Cache Hit Rate",
+    "calculate": "Calculate",
+    "results": "Results",
+    "costPerCall": "Cost per Call",
+    "dailyCost": "Daily Cost",
+    "monthlyCost": "Monthly Cost",
+    "inputCost": "Input Cost",
+    "outputCost": "Output Cost",
+    "totalCost": "Total Cost",
+    "tokens": "tokens",
+    "perMillionTokens": "per 1M tokens",
+    "usd": "USD"
+  },
+  "comparison": {
+    "title": "Compare Models",
+    "selectModels": "Select Models to Compare",
+    "model": "Model",
+    "inputPrice": "Input Price",
+    "outputPrice": "Output Price",
+    "totalCost": "Total Cost",
+    "cheapest": "Cheapest",
+    "mostExpensive": "Most Expensive"
+  },
+  "budget": {
+    "title": "Budget Planner",
+    "monthlyBudget": "Monthly Budget",
+    "selectModel": "Select Model",
+    "avgInputTokens": "Avg Input Tokens",
+    "avgOutputTokens": "Avg Output Tokens",
+    "results": "Budget Results",
+    "maxCalls": "Max Calls per Month",
+    "maxDailyCalls": "Max Calls per Day",
+    "costPerCall": "Cost per Call"
+  },
+  "monthly": {
+    "title": "Monthly Cost Calculator",
+    "appType": "Application Type",
+    "chatbot": "Chatbot",
+    "contentGeneration": "Content Generation",
+    "codeAssistant": "Code Assistant",
+    "dataAnalysis": "Data Analysis",
+    "users": "Estimated Users",
+    "callsPerUserPerDay": "Calls per User per Day",
+    "results": "Monthly Cost Estimate",
+    "totalMonthlyCost": "Total Monthly Cost",
+    "costPerUser": "Cost per User",
+    "costPerDay": "Cost per Day"
+  },
+  "batch": {
+    "title": "Batch Cost Estimator",
+    "taskCount": "Number of Tasks",
+    "tokensPerTask": "Tokens per Task",
+    "selectModel": "Select Model",
+    "results": "Batch Cost Estimate",
+    "totalCost": "Total Cost",
+    "totalTokens": "Total Tokens",
+    "estimatedTime": "Estimated Time"
+  },
+  "faq": {
+    "title": "Frequently Asked Questions",
+    "items": {
+      "accuracy": {
+        "question": "How accurate are these calculations?",
+        "answer": "Our calculators use the latest published pricing from each provider. However, actual costs may vary based on usage patterns, caching, and provider-specific billing rules."
+      },
+      "update": {
+        "question": "How often is pricing data updated?",
+        "answer": "We update pricing data whenever providers announce changes. Always verify with official provider documentation for the most current rates."
+      },
+      "free": {
+        "question": "Are these calculators free to use?",
+        "answer": "Yes, all calculators are completely free to use with no registration required."
+      },
+      "providers": {
+        "question": "Which AI providers are supported?",
+        "answer": "We currently support Anthropic (Claude), OpenAI (GPT), Google (Gemini), and DeepSeek. We plan to add more providers in the future."
+      }
+    }
+  },
+  "footer": {
+    "disclaimer": "Disclaimer: Calculations are estimates based on published pricing. Actual costs may vary. Always refer to official provider documentation for authoritative pricing.",
+    "privacy": "Privacy",
+    "contact": "Contact",
+    "copyright": "AI API Cost Tools"
+  },
+  "relatedTools": {
+    "title": "Related Tools"
+  }
+}

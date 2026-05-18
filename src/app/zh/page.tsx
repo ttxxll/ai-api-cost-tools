@@ -9,7 +9,7 @@ import Footer from '@/components/layout/Footer';
 import { getModelById } from '@/lib/data/modelPricing';
 import type { CustomModelData } from '@/lib/calculators/apiCost';
 
-export default function Home() {
+export default function ZhHome() {
   const [selectedModelId, setSelectedModelId] = useState<string | undefined>();
   const [customModel, setCustomModel] = useState<CustomModelData | undefined>();
   const calculatorRef = useRef<HTMLDivElement>(null);
@@ -29,23 +29,23 @@ export default function Home() {
 
   return (
     <>
-      <Header />
+      <Header locale="zh" />
       <main className="flex-1 bg-[#0B0F19] relative overflow-hidden">
         {/* Background Orbs */}
         <div className="absolute top-0 left-1/4 w-[600px] h-[600px] bg-orb bg-orb-purple animate-pulse-slow pointer-events-none" />
         <div className="absolute top-1/3 right-1/4 w-[400px] h-[400px] bg-orb bg-orb-cyan animate-pulse-slow pointer-events-none" style={{ animationDelay: '3s' }} />
 
-        {/* Hero Section — no animation, renders immediately */}
+        {/* Hero Section */}
         <section className="relative border-b border-white/[0.04] py-16 px-4">
           <div className="max-w-6xl mx-auto text-center">
             <h1 className="text-4xl md:text-5xl font-bold mb-4 gradient-text">
-              AI API Cost Calculator & Token Cost Calculator
+              AI API 成本计算器 & Token 成本计算器
             </h1>
             <p className="text-lg text-gray-400 max-w-2xl mx-auto mb-6">
-              Estimate token costs and compare LLM API pricing — Claude, GPT, Gemini, DeepSeek, Mistral, Grok
+              估算 Token 成本并比较 Claude、GPT、Gemini、DeepSeek、Mistral、Grok 等模型的 API 定价
             </p>
             <p className="text-sm text-gray-500 max-w-xl mx-auto">
-              Free API cost calculator and token cost calculator for developers and teams planning AI budgets.
+              面向开发者和团队的免费 API 成本计算器与 Token 成本计算器，帮助规划 AI 预算。
             </p>
           </div>
         </section>
@@ -55,12 +55,13 @@ export default function Home() {
           <AdPlaceholder slot="top-banner" format="horizontal" className="mx-auto max-w-6xl" />
         </div>
 
-        {/* Calculator Section — no animation */}
+        {/* Calculator Section */}
         <section ref={calculatorRef} className="relative py-10 px-4">
           <div className="max-w-6xl mx-auto">
-            <h2 className="text-xl font-bold text-white mb-6">Token Cost Calculator & API Cost Calculator</h2>
+            <h2 className="text-xl font-bold text-white mb-6">Token 成本计算器 & API 成本计算器</h2>
             <ApiCostCalculator
               key={`${selectedModelId || 'default'}-${customModel ? 'custom' : 'known'}`}
+              locale="zh"
               selectedModelId={selectedModelId}
               customModel={customModel}
             />
@@ -70,26 +71,26 @@ export default function Home() {
         {/* How It Works */}
         <section className="relative border-t border-white/[0.04] py-16 px-4">
           <div className="max-w-6xl mx-auto">
-            <h2 className="text-2xl font-bold text-white mb-3 text-center">How It Works</h2>
+            <h2 className="text-2xl font-bold text-white mb-3 text-center">使用方法</h2>
             <p className="text-sm text-gray-500 text-center mb-10 max-w-xl mx-auto">
-              Get accurate token cost and AI API cost estimates in three simple steps
+              三步获取准确的 Token 成本和 AI API 成本估算
             </p>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
               {[
                 {
                   step: '1',
-                  title: 'Select a Model',
-                  desc: 'Choose from 18+ AI models across OpenAI, Anthropic, Google, DeepSeek, Mistral, and xAI. Each model shows its per-token pricing.',
+                  title: '选择模型',
+                  desc: '从 OpenAI、Anthropic、Google、DeepSeek、Mistral 和 xAI 的 18+ 个 AI 模型中选择。每个模型都显示其每 Token 定价。',
                 },
                 {
                   step: '2',
-                  title: 'Enter Your Usage',
-                  desc: 'Input your expected token counts for input and output. You can specify in tokens, words, or characters — we handle the conversion.',
+                  title: '输入用量',
+                  desc: '输入预期的输入和输出 Token 数量。支持 Token、单词或字符作为单位，我们自动处理转换。',
                 },
                 {
                   step: '3',
-                  title: 'See Your Costs',
-                  desc: 'Instantly see per-call, daily, and monthly cost estimates. Compare across models to find the most cost-effective option for your use case.',
+                  title: '查看成本',
+                  desc: '即时查看单次调用、每日和每月的成本估算。跨模型比较，找到最适合您使用场景的方案。',
                 },
               ].map((item, i) => (
                 <div key={i} className="glass-card p-6 text-center">
@@ -108,28 +109,28 @@ export default function Home() {
         <section className="relative py-10 px-4 border-t border-white/[0.04]">
           <div className="max-w-6xl mx-auto">
             <div className="flex items-center gap-3 mb-6">
-              <h2 className="text-xl font-bold text-white">Live Model Pricing</h2>
+              <h2 className="text-xl font-bold text-white">实时模型价格</h2>
               <span className="text-[10px] text-gray-500 bg-white/[0.03] px-2 py-0.5 rounded-full border border-white/[0.06]">
-                via OpenRouter
+                数据来自 OpenRouter
               </span>
             </div>
-            <LiveComparisonCalculator onSelectModel={handleSelectModel} />
+            <LiveComparisonCalculator locale="zh" onSelectModel={handleSelectModel} />
           </div>
         </section>
 
         {/* Features */}
         <section className="relative border-t border-white/[0.04] py-16 px-4">
           <div className="max-w-6xl mx-auto">
-            <h2 className="text-2xl font-bold text-white mb-3 text-center">Why Use Our Tools</h2>
+            <h2 className="text-2xl font-bold text-white mb-3 text-center">为什么选择我们</h2>
             <p className="text-sm text-gray-500 text-center mb-10 max-w-xl mx-auto">
-              Built for developers who need fast, accurate AI cost estimates
+              为需要快速、准确 AI 成本估算的开发者而生
             </p>
             <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
               {[
-                { icon: '📊', title: '18 Models', desc: 'All major providers in one place' },
-                { icon: '⚡', title: 'Real-time', desc: 'Instant calculations as you type' },
-                { icon: '🔄', title: 'Multi-unit', desc: 'Tokens, words, or characters' },
-                { icon: '💰', title: '100% Free', desc: 'No registration required' },
+                { icon: '📊', title: '18 个模型', desc: '所有主要供应商一站式比较' },
+                { icon: '⚡', title: '实时计算', desc: '输入即出结果' },
+                { icon: '🔄', title: '多种单位', desc: 'Token、单词、字符' },
+                { icon: '💰', title: '完全免费', desc: '无需注册' },
               ].map((feature, i) => (
                 <div key={i} className="text-center glass-card p-6 hover:border-white/[0.12] transition-all duration-300">
                   <div className="text-3xl mb-3">{feature.icon}</div>
@@ -144,18 +145,18 @@ export default function Home() {
         {/* Supported Providers */}
         <section className="relative border-t border-white/[0.04] py-16 px-4">
           <div className="max-w-6xl mx-auto">
-            <h2 className="text-2xl font-bold text-white mb-3 text-center">Supported AI Providers</h2>
+            <h2 className="text-2xl font-bold text-white mb-3 text-center">支持的 AI 供应商</h2>
             <p className="text-sm text-gray-500 text-center mb-10 max-w-xl mx-auto">
-              Compare pricing across the most popular AI API providers
+              比较最受欢迎的 AI API 供应商的定价
             </p>
             <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
               {[
-                { name: 'OpenAI', models: 'GPT-4o, GPT-5, o3', desc: 'Leading provider with versatile models for text, code, and multimodal tasks.' },
-                { name: 'Anthropic', models: 'Claude 4.7, Sonnet, Opus', desc: 'Known for safety-focused models with strong reasoning and long context windows.' },
-                { name: 'Google', models: 'Gemini 3.1 Flash, Pro', desc: 'High-performance models with competitive pricing and large context support.' },
-                { name: 'DeepSeek', models: 'DeepSeek V4', desc: 'Cost-effective models with strong coding capabilities and cache discounts.' },
-                { name: 'Mistral', models: 'Mistral Large, Medium', desc: 'European AI provider offering efficient models for various use cases.' },
-                { name: 'xAI', models: 'Grok 3, Grok 3 Mini', desc: 'Elon Musk\'s AI venture offering real-time knowledge integration.' },
+                { name: 'OpenAI', models: 'GPT-4o, GPT-5, o3', desc: '领先供应商，提供适用于文本、代码和多模态任务的多功能模型。' },
+                { name: 'Anthropic', models: 'Claude 4.7, Sonnet, Opus', desc: '以安全为导向的模型，具有强大的推理能力和长上下文窗口。' },
+                { name: 'Google', models: 'Gemini 3.1 Flash, Pro', desc: '高性能模型，具有竞争力的定价和大上下文支持。' },
+                { name: 'DeepSeek', models: 'DeepSeek V4', desc: '具有强大编码能力的成本效益型模型，支持缓存折扣。' },
+                { name: 'Mistral', models: 'Mistral Large, Medium', desc: '欧洲 AI 供应商，为各种用例提供高效模型。' },
+                { name: 'xAI', models: 'Grok 3, Grok 3 Mini', desc: 'Elon Musk 的 AI 项目，提供实时知识集成。' },
               ].map((provider, i) => (
                 <div key={i} className="glass-card p-5 hover:border-white/[0.12] transition-all duration-300">
                   <h3 className="font-semibold text-white text-sm mb-1">{provider.name}</h3>
@@ -170,35 +171,35 @@ export default function Home() {
         {/* FAQ */}
         <section className="relative border-t border-white/[0.04] py-16 px-4">
           <div className="max-w-3xl mx-auto">
-            <h2 className="text-2xl font-bold text-white mb-3 text-center">Frequently Asked Questions</h2>
+            <h2 className="text-2xl font-bold text-white mb-3 text-center">常见问题</h2>
             <p className="text-sm text-gray-500 text-center mb-10">
-              Common questions about our AI API cost calculator
+              关于 AI API 成本计算器的常见问题
             </p>
             <div className="space-y-4">
               {[
                 {
-                  q: 'How accurate are the cost estimates?',
-                  a: 'Our pricing data comes from OpenRouter and is refreshed regularly. The calculations are mathematically precise based on the pricing data we have. However, providers may update their pricing at any time, so we recommend verifying with official documentation before making financial decisions.',
+                  q: '成本估算有多准确？',
+                  a: '我们的定价数据来自 OpenRouter 并定期刷新。基于我们掌握的定价数据，计算在数学上是精确的。但供应商可能随时更新定价，因此建议在做出财务决定前以官方文档为准。',
                 },
                 {
-                  q: 'Which AI providers do you support?',
-                  a: 'We support major providers including OpenAI, Anthropic (Claude), Google (Gemini), DeepSeek, Mistral, xAI (Grok), Meta (Llama), and Cohere. We continuously add new models as they become available.',
+                  q: '支持哪些 AI 供应商？',
+                  a: '我们支持主要供应商，包括 OpenAI、Anthropic (Claude)、Google (Gemini)、DeepSeek、Mistral、xAI (Grok)、Meta (Llama) 和 Cohere。我们会持续添加新模型。',
                 },
                 {
-                  q: 'What is the difference between input and output tokens?',
-                  a: 'Input tokens are the text you send to the model (your prompt), while output tokens are the text the model generates in response. Most providers charge different rates for input vs output tokens, with output typically being 2-5x more expensive.',
+                  q: '输入 Token 和输出 Token 有什么区别？',
+                  a: '输入 Token 是您发送给模型的文本（即提示），输出 Token 是模型生成的回复文本。大多数供应商对输入和输出 Token 收取不同费率，输出通常贵 2-5 倍。',
                 },
                 {
-                  q: 'Can I compare costs across different providers?',
-                  a: 'Yes! Our comparison table lets you see pricing for all supported models side by side. You can sort by input price, output price, or total cost per call to find the most cost-effective option.',
+                  q: '可以比较不同供应商的成本吗？',
+                  a: '可以！我们的对比表让您可以并排查看所有支持模型的定价。您可以按输入价格、输出价格或单次调用总成本排序，找到最具性价比的选项。',
                 },
                 {
-                  q: 'Do you store my calculation data?',
-                  a: 'No. All calculations happen directly in your browser. We do not store any of your input data, token counts, or calculation results on our servers.',
+                  q: '你们会存储我的计算数据吗？',
+                  a: '不会。所有计算直接在您的浏览器中完成。我们不会在服务器上存储您的任何输入数据、Token 数量或计算结果。',
                 },
                 {
-                  q: 'Is this tool free to use?',
-                  a: 'Yes, completely free. No registration, no hidden fees, no usage limits. We support the site through advertising.',
+                  q: '这个工具免费吗？',
+                  a: '完全免费。无需注册，没有隐藏费用，没有使用限制。我们通过广告支持网站运营。',
                 },
               ].map((item, i) => (
                 <div key={i} className="glass-card p-5">
@@ -215,7 +216,7 @@ export default function Home() {
           <AdPlaceholder slot="bottom-banner" format="horizontal" className="mx-auto max-w-6xl" />
         </div>
       </main>
-      <Footer />
+      <Footer locale="zh" />
     </>
   );
 }

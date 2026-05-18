@@ -1,0 +1,11 @@
+{
+  "permissions": {
+    "allow": [
+      "PowerShell(npm run *)",
+      "PowerShell(Get-NetTCPConnection *)",
+      "Skill(planning-with-files)",
+      "PowerShell(Get-Command *)",
+      "PowerShell($paths = '/', '/zh', '/deepseek-api-cost-calculator', '/zh/deepseek-api-cost-calculator', '/ai-model-price-comparison', '/api/pricing', '/sitemap.xml', '/robots.txt'; foreach \\($path in $paths\\) { try { $response = Invoke-WebRequest -Uri \"http://localhost:3000$path\" -UseBasicParsing -TimeoutSec 20; \"$path $\\($response.StatusCode\\) $\\($response.Content.Length\\)\" } catch { \"$path ERROR $\\($_.Exception.Message\\)\" } })"
+    ]
+  }
+}

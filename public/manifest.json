@@ -1,0 +1,16 @@
+{
+  "name": "AI API Cost Tools",
+  "short_name": "AI Cost",
+  "description": "Free online calculators to estimate and compare AI API costs",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#0B0F19",
+  "theme_color": "#7C3AED",
+  "icons": [
+    {
+      "src": "/favicon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml"
+    }
+  ]
+}
