@@ -16,6 +16,8 @@ const jetbrainsMono = JetBrains_Mono({
   display: "swap",
 });
 
+const GA_MEASUREMENT_ID = "G-4TX5GCJ3QT";
+
 export const metadata: Metadata = {
   metadataBase: new URL("https://aiapicost.tools"),
   title: {
@@ -87,6 +89,18 @@ export default function RootLayout({
       <head>
         <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
         <link rel="manifest" href="/manifest.json" />
+        <Script
+          src={`https://www.googletagmanager.com/gtag/js?id=${GA_MEASUREMENT_ID}`}
+          strategy="afterInteractive"
+        />
+        <Script id="google-analytics" strategy="afterInteractive">
+          {`
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            gtag('js', new Date());
+            gtag('config', '${GA_MEASUREMENT_ID}');
+          `}
+        </Script>
         <Script
           id="web-application-schema"
           type="application/ld+json"
