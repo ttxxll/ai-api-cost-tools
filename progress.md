@@ -1,5 +1,27 @@
 # Progress Log
 
+## Session: 2026-05-19
+
+### Phase 1: Explore Current Data Flow
+- **Status:** in_progress
+- Actions taken:
+  - Restored existing planning files and ran planning-with-files session catchup.
+  - Replaced the old completed plan with the new LiteLLM pricing refactor plan.
+  - Created visible tasks for exploration, implementation, automation, UI wiring, GitHub Actions, and verification.
+  - Inspected existing static pricing, calculator consumers, dynamic pricing API route, package scripts, and Next.js route handler docs.
+  - Fetched LiteLLM model cost JSON schema summary for pricing/context/cache fields.
+  - Created `src/lib/data/modelsPricing.ts` with `ModelPricing`, `MODELS_DATA`, cache pricing, LiteLLM IDs, and compatibility helpers.
+  - Converted `src/lib/data/modelPricing.ts` into a compatibility re-export.
+  - Began migrating consumers from legacy `name` and `inputPricePerMillion` fields to `displayName` and `inputPricePerM`.
+  - Added `scripts/sync-litellm-pricing.mjs`, wired `npm run sync:pricing`, and confirmed it syncs 26 LiteLLM-backed records.
+- Files created/modified:
+  - `task_plan.md` (updated)
+  - `progress.md` (updated)
+  - `findings.md` (updated)
+  - `src/lib/data/modelsPricing.ts` (created)
+  - `src/lib/data/modelPricing.ts` (updated)
+  - Calculator and pricing consumer files (updated)
+
 ## Session: 2026-05-18
 
 ### Phase 1: Restore Context
@@ -46,9 +68,30 @@
 - Files created/modified:
   - `progress.md` (updated)
 
+### Phase 6: Verification
+- **Status:** complete
+- Actions taken:
+  - Ran `npm run sync:pricing`; generated 26 LiteLLM-backed pricing records.
+  - Ran `npm run lint`; passed after fixing string escaping and metadata syntax issues.
+  - Ran `npm run build`; passed after installing missing declared dependencies and removing obsolete `notes` access.
+  - Started local dev server and checked `/`, `/api/pricing`, `/deepseek-api-cost-calculator`, `/ai-model-price-comparison`, `/zh`, and `/zh/deepseek-api-cost-calculator`; all returned 200.
+  - Confirmed no remaining `OpenRouter`, DeepSeek V4 stale prices, or frontend `/api/pricing` fetch references under `src`.
+- Files created/modified:
+  - `.github/workflows/sync-litellm-pricing.yml` (created)
+  - `scripts/sync-litellm-pricing.mjs` (created)
+  - `package.json` (updated)
+  - `src/components/calculators/LiveComparisonCalculator.tsx` (updated)
+  - `src/app/api/pricing/route.ts` (updated)
+  - Pricing consumer and copy files (updated)
+
 ## Test Results
 | Test | Input | Expected | Actual | Status |
 |------|-------|----------|--------|--------|
+| LiteLLM sync | `npm run sync:pricing` | Generate deterministic static pricing data | Synced 26 model pricing records | pass |
+| Lint | `npm run lint` | ESLint reports no issues | No lint errors output | pass |
+| Production build | `npm run build` | Next.js app builds successfully | Build passed; 34 app routes generated, `/api/pricing` static | pass |
+| Local route checks | HTTP GET selected routes on localhost:3000 | Key pages and pricing API return 200 | All selected routes returned 200 | pass |
+| Stale source search | Grep for OpenRouter/runtime fetch/stale DeepSeek V4 prices | No stale references under `src` | No matches found | pass |
 | Dev server startup | `npm run dev` | Next.js server listens locally | Port 3000 is listening | pass |
 | Production build | `npm run build` | Next.js app builds successfully | Build passed; 34 app routes generated | pass |
 | Lint | `npm run lint` | ESLint reports no issues | No lint errors output | pass |

@@ -16,7 +16,7 @@ export default function AiModelPriceComparison() {
     {
       question: 'Which AI model is cheapest?',
       answer:
-        'DeepSeek-V4-Flash is currently the cheapest at $0.112/$0.224 per million input/output tokens. However, consider factors like quality, speed, and context window.'
+        'DeepSeek Chat is one of the cheapest tracked models at $0.28/$0.42 per million input/output tokens. However, consider factors like quality, speed, and context window.'
     },
     {
       question: 'How do I choose between models?',
@@ -27,8 +27,8 @@ export default function AiModelPriceComparison() {
 
   // Calculate costs for each model
   const comparisons = modelPricing.map((model) => {
-    const inputCost = (inputTokens * model.inputPricePerMillion) / 1000000;
-    const outputCost = (outputTokens * model.outputPricePerMillion) / 1000000;
+    const inputCost = (inputTokens * model.inputPricePerM) / 1000000;
+    const outputCost = (outputTokens * model.outputPricePerM) / 1000000;
     return {
       ...model,
       inputCost,
@@ -107,7 +107,7 @@ export default function AiModelPriceComparison() {
                       <td className="px-4 py-3">
                         <div>
                           <div className="font-medium text-white">
-                            {model.name}
+                            {model.displayName}
                           </div>
                           <div className="text-xs text-gray-500 dark:text-gray-400 capitalize">
                             {model.provider}

@@ -22,9 +22,9 @@ export function calculateBudget(input: BudgetPlannerInput): BudgetPlannerResult 
 
   // Calculate cost per call
   const inputCostPerCall =
-    (input.avgInputTokens * model.inputPricePerMillion) / 1000000;
+    (input.avgInputTokens * model.inputPricePerM) / 1000000;
   const outputCostPerCall =
-    (input.avgOutputTokens * model.outputPricePerMillion) / 1000000;
+    (input.avgOutputTokens * model.outputPricePerM) / 1000000;
   const costPerCall = inputCostPerCall + outputCostPerCall;
 
   // Calculate max calls

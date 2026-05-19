@@ -68,7 +68,7 @@ export default function ApiCostCalculator({
             value={activeCustomModel ? 'custom' : modelId}
             onChange={(id) => {
               if (id === 'custom') {
-                setInternalCustomModel({ name: '', inputPricePerMillion: 0, outputPricePerMillion: 0 });
+                setInternalCustomModel({ name: '', inputPricePerM: 0, outputPricePerM: 0 });
               } else {
                 setModelId(id);
                 setInternalCustomModel(null);
@@ -149,7 +149,7 @@ export default function ApiCostCalculator({
                 </div>
                 <h3 className="text-sm font-semibold text-white">{isZh ? '成本估算' : 'Cost Estimate'}</h3>
                 <span className="ml-auto text-[10px] text-gray-500 bg-white/[0.03] px-2 py-0.5 rounded-full border border-white/[0.06]">
-                  {result.model.name}
+                  {result.model.displayName}
                 </span>
               </div>
 
@@ -237,7 +237,7 @@ function getDefaultModel(provider: string): string {
     anthropic: 'claude-sonnet-4.6',
     openai: 'gpt-5.4',
     google: 'gemini-3.1-pro-preview',
-    deepseek: 'deepseek-v4-flash',
+    deepseek: 'deepseek-chat',
   };
   return defaults[provider] || 'claude-sonnet-4.6';
 }

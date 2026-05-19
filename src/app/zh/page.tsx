@@ -14,7 +14,7 @@ export default function ZhHome() {
   const [customModel, setCustomModel] = useState<CustomModelData | undefined>();
   const calculatorRef = useRef<HTMLDivElement>(null);
 
-  function handleSelectModel(modelId: string, modelData?: { name: string; inputPricePerMillion: number; outputPricePerMillion: number }) {
+  function handleSelectModel(modelId: string, modelData?: { name: string; inputPricePerM: number; outputPricePerM: number }) {
     const shortId = modelId.includes('/') ? modelId.split('/').pop()! : modelId;
     const existingModel = getModelById(shortId);
     if (existingModel) {
@@ -111,7 +111,7 @@ export default function ZhHome() {
             <div className="flex items-center gap-3 mb-6">
               <h2 className="text-xl font-bold text-white">实时模型价格</h2>
               <span className="text-[10px] text-gray-500 bg-white/[0.03] px-2 py-0.5 rounded-full border border-white/[0.06]">
-                数据来自 OpenRouter
+                数据来自 LiteLLM
               </span>
             </div>
             <LiveComparisonCalculator locale="zh" onSelectModel={handleSelectModel} />
@@ -179,7 +179,7 @@ export default function ZhHome() {
               {[
                 {
                   q: '成本估算有多准确？',
-                  a: '我们的定价数据来自 OpenRouter 并定期刷新。基于我们掌握的定价数据，计算在数学上是精确的。但供应商可能随时更新定价，因此建议在做出财务决定前以官方文档为准。',
+                  a: '我们的定价数据来自 LiteLLM 并定期刷新。基于我们掌握的定价数据，计算在数学上是精确的。但供应商可能随时更新定价，因此建议在做出财务决定前以官方文档为准。',
                 },
                 {
                   q: '支持哪些 AI 供应商？',

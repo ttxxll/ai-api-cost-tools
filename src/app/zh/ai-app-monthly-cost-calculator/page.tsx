@@ -21,8 +21,8 @@ export default function AiAppMonthlyCostCalculatorZh() {
   const model = getModelById(modelId);
   const totalCallsPerDay = users * callsPerUserPerDay;
   const costPerCall = model
-    ? (avgInputTokens * model.inputPricePerMillion) / 1000000 +
-      (avgOutputTokens * model.outputPricePerMillion) / 1000000
+    ? (avgInputTokens * model.inputPricePerM) / 1000000 +
+      (avgOutputTokens * model.outputPricePerM) / 1000000
     : 0;
   const dailyCost = costPerCall * totalCallsPerDay;
   const monthlyCost = dailyCost * 30;

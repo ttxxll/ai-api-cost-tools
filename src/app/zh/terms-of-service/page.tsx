@@ -34,7 +34,7 @@ export default function TermsOfServicePageZh() {
                 AI API 成本工具提供免费的在线计算器和估算工具，用于比较多家 AI 供应商的 API 定价，包括 OpenAI、Anthropic、Google、DeepSeek、Mistral、xAI 等。我们的工具帮助开发者和团队估算和规划 AI API 使用成本。
               </p>
               <p>
-                显示的定价数据来自公开信息和第三方 API（主要是 OpenRouter）。我们尽力保持数据的准确性和时效性，但无法保证其准确性。
+                显示的定价数据来自公开信息和 LiteLLM 开源模型价格库。我们尽力保持数据的准确性和时效性，但无法保证其准确性。
               </p>
             </section>
 

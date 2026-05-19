@@ -30,9 +30,9 @@ export function estimateBatchCost(
   const totalTokens = totalInputTokens + totalOutputTokens;
 
   // Calculate costs
-  const inputCost = (totalInputTokens * model.inputPricePerMillion) / 1000000;
+  const inputCost = (totalInputTokens * model.inputPricePerM) / 1000000;
   const outputCost =
-    (totalOutputTokens * model.outputPricePerMillion) / 1000000;
+    (totalOutputTokens * model.outputPricePerM) / 1000000;
   const totalCost = inputCost + outputCost;
 
   // Estimate time (rough estimate: ~2 seconds per task for batch processing)

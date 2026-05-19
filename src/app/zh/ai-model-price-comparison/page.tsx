@@ -16,7 +16,7 @@ export default function AiModelPriceComparisonZh() {
     {
       question: '哪个 AI 模型最便宜？',
       answer:
-        'DeepSeek-V4-Flash 目前最便宜，每百万输入/输出 token 收费 $0.112/$0.224。但请考虑质量、速度和上下文窗口等因素。',
+        'DeepSeek Chat 是当前跟踪模型中价格较低的选择之一，每百万输入/输出 token 收费 $0.28/$0.42。但请考虑质量、速度和上下文窗口等因素。',
     },
     {
       question: '如何选择模型？',
@@ -27,8 +27,8 @@ export default function AiModelPriceComparisonZh() {
 
   // Calculate costs for each model
   const comparisons = modelPricing.map((model) => {
-    const inputCost = (inputTokens * model.inputPricePerMillion) / 1000000;
-    const outputCost = (outputTokens * model.outputPricePerMillion) / 1000000;
+    const inputCost = (inputTokens * model.inputPricePerM) / 1000000;
+    const outputCost = (outputTokens * model.outputPricePerM) / 1000000;
     return {
       ...model,
       inputCost,
@@ -107,7 +107,7 @@ export default function AiModelPriceComparisonZh() {
                       <td className="px-4 py-3">
                         <div>
                           <div className="font-medium text-white">
-                            {model.name}
+                            {model.displayName}
                           </div>
                           <div className="text-xs text-gray-500 dark:text-gray-400 capitalize">
                             {model.provider}

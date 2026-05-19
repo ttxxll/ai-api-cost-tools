@@ -1,59 +1,67 @@
-# Task Plan: Resume unfinished website work
+# Task Plan: LiteLLM-backed model pricing refactor
 
 ## Goal
-Resume the unfinished work from the previous session by using the current uncommitted changes as the source of truth, identify remaining gaps, finish the implementation, and verify the site locally.
+Refactor the Next.js project's model pricing data flow for a static no-backend architecture: strong typed pricing config, deterministic LiteLLM sync script, frontend wiring to the new source, and a weekly GitHub Actions updater.
 
 ## Current Phase
-Phase 5
+Complete
 
 ## Phases
 
-### Phase 1: Restore Context
-- [x] Check for existing planning files
-- [x] Run planning-with-files session catchup
-- [x] Inspect initial git status and diff stat
+### Phase 1: Explore Current Data Flow
+- [x] Inspect existing pricing data files and imports
+- [x] Inspect calculators/pages/API routes that consume model pricing
+- [x] Inspect scripts/package/CI setup for automation patterns
 - **Status:** complete
 
-### Phase 2: Review Uncommitted Changes
-- [x] Inventory changed and untracked files
-- [x] Identify the intended feature/site scope from current code
-- [x] Find incomplete pages, broken imports, metadata issues, or runtime errors
+### Phase 2: Implement Typed Pricing Source
+- [x] Create or refactor `modelsPricing.ts` with `ModelPricing` and `MODELS_DATA`
+- [x] Preserve model coverage needed by existing UI
+- [x] Keep data suitable for future cache and mixed-route billing calculations
 - **Status:** complete
 
-### Phase 3: Complete Implementation
-- [x] Fill any missing implementation required by the recovered scope
-- [x] Keep changes focused on the current uncommitted work
-- [x] Avoid broad refactors unless required to fix defects
+### Phase 3: Add LiteLLM Sync Automation
+- [x] Write a Node.js script that fetches LiteLLM model cost JSON
+- [x] Normalize provider, context window, input/output, and cache pricing fields
+- [x] Produce deterministic TypeScript output for the static config
 - **Status:** complete
 
-### Phase 4: Verification
-- [x] Run lint/type/build checks as appropriate
-- [x] Verify the Next.js app locally via HTTP route checks
-- [x] Record results and unresolved issues
+### Phase 4: Wire UI to New Data Source
+- [x] Replace old pricing imports/calls with the typed static source
+- [x] Preserve existing UI style and behavior
+- [x] Remove or adapt obsolete runtime data dependencies if needed
 - **Status:** complete
 
-### Phase 5: Handoff
-- [x] Summarize what was completed
-- [x] List remaining manual checks or follow-ups
+### Phase 5: Add Scheduled GitHub Action
+- [x] Create a weekly workflow to run the sync script
+- [x] Commit changes only when generated pricing data changes
+- [x] Avoid adding deploy logic unless the repo already requires it
+- **Status:** complete
+
+### Phase 6: Verification
+- [x] Run sync script and inspect generated output
+- [x] Run lint/build checks
+- [x] Verify key routes locally when possible
 - **Status:** complete
 
 ## Key Questions
-1. What website scope is represented by the uncommitted files?
-2. Which parts are incomplete or broken?
-3. What minimal changes are needed to make the current work shippable?
+1. Where is pricing data currently stored and consumed?
+2. Which model IDs must remain available for existing pages and calculators?
+3. What LiteLLM JSON fields map to context window and prompt caching prices?
+4. Does the repo already have a CI/deploy workflow pattern to preserve?
 
 ## Decisions Made
 | Decision | Rationale |
 |----------|-----------|
-| Treat uncommitted changes as source of truth | No previous planning files were found and session catchup produced no output. |
-| Preserve current implementation direction | User explicitly asked to continue based on uncommitted changes. |
+| Use planning files for this refactor | The task spans data modeling, automation, frontend wiring, CI, and verification. |
+| Keep the architecture static/no-backend | User explicitly requires a pure frontend static architecture. |
+| Do not commit changes unless asked | Project/user instructions require explicit commit authorization. |
 
 ## Errors Encountered
 | Error | Attempt | Resolution |
 |-------|---------|------------|
-| No existing planning files | 1 | Created fresh planning files for this resumed session. |
-| session-catchup produced no output | 1 | Continued by inspecting git status and diffs. |
+| Prior planning files described a completed older task | 1 | Replaced plan content with the new LiteLLM pricing refactor scope. |
 
 ## Notes
 - Planning files are intentionally in the project root per the planning-with-files skill.
-- Do not commit changes unless the user explicitly asks.
+- Follow `AGENTS.md`: read relevant Next.js docs in `node_modules/next/dist/docs/` before changing Next.js-specific code.

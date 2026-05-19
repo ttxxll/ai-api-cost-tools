@@ -61,9 +61,9 @@ export default function AboutPage() {
             <section>
               <h2 className="text-lg font-semibold text-white mb-3">How It Works</h2>
               <p className="mb-3">
-                Our pricing data comes from OpenRouter, which aggregates pricing information from
-                multiple AI providers. The data is cached and refreshed periodically to ensure
-                reasonable accuracy while maintaining fast load times.
+                Our pricing data comes from LiteLLM&apos;s open model pricing dataset. The data is
+                synchronized into this static site periodically to ensure reasonable accuracy while
+                maintaining fast load times.
               </p>
               <p>
                 All calculations happen directly in your browser — we do not store your input
@@ -91,11 +91,8 @@ export default function AboutPage() {
             <section>
               <h2 className="text-lg font-semibold text-white mb-3">Data Sources</h2>
               <p className="mb-3">
-                Model pricing data is sourced from{' '}
-                <a href="https://openrouter.ai" target="_blank" rel="noopener noreferrer" className="text-purple-400 hover:text-purple-300">
-                  OpenRouter
-                </a>, a unified API gateway that provides access to hundreds of AI models.
-                We also maintain a fallback pricing dataset for offline scenarios.
+                Model pricing data is sourced from LiteLLM&apos;s open model pricing dataset and
+                generated into the static site. No runtime pricing API is required for normal use.
               </p>
               <p>
                 We are not affiliated with any AI provider. All provider names and trademarks

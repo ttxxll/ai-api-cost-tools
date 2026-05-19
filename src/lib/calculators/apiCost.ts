@@ -1,9 +1,12 @@
-import { getModelById, type ModelPricing } from '../data/modelPricing';
+import { getModelById, type ModelPricingRecord } from '../data/modelPricing';
 
 export interface CustomModelData {
-  name: string;
-  inputPricePerMillion: number;
-  outputPricePerMillion: number;
+  name?: string;
+  displayName?: string;
+  inputPricePerMillion?: number;
+  outputPricePerMillion?: number;
+  inputPricePerM?: number;
+  outputPricePerM?: number;
 }
 
 export interface ApiCostInput {
@@ -17,7 +20,7 @@ export interface ApiCostInput {
 }
 
 export interface ApiCostResult {
-  model: ModelPricing;
+  model: ModelPricingRecord;
   inputCostPerCall: number;
   outputCostPerCall: number;
   totalCostPerCall: number;
@@ -28,17 +31,18 @@ export interface ApiCostResult {
 }
 
 export function calculateApiCost(input: ApiCostInput): ApiCostResult | null {
-  // If custom model data is provided, use it directly
   if (input.customModel) {
     const custom = input.customModel;
-    const model: ModelPricing = {
+    const model: ModelPricingRecord = {
       id: 'custom',
-      name: custom.name || 'Custom Model',
-      provider: 'openai',
-      inputPricePerMillion: custom.inputPricePerMillion,
-      outputPricePerMillion: custom.outputPricePerMillion,
+      provider: 'OpenAI',
+      displayName: custom.displayName || custom.name || 'Custom Model',
       contextWindow: 0,
+      inputPricePerM: custom.inputPricePerM ?? custom.inputPricePerMillion ?? 0,
+      outputPricePerM: custom.outputPricePerM ?? custom.outputPricePerMillion ?? 0,
+      caching: { isSupported: false },
       maxOutput: 0,
+      litellmId: 'custom',
     };
     return computeCost(input, model);
   }
@@ -48,33 +52,25 @@ export function calculateApiCost(input: ApiCostInput): ApiCostResult | null {
   return computeCost(input, model);
 }
 
-function computeCost(input: ApiCostInput, model: ModelPricing): ApiCostResult {
-
+function computeCost(input: ApiCostInput, model: ModelPricingRecord): ApiCostResult {
   const requestsPerCall = input.requestsPerCall || 1;
   const callsPerDay = input.callsPerDay || 1;
   const cacheHitRate = Math.min(Math.max(input.cacheHitRate || 0, 0), 100) / 100;
 
-  // Calculate cost per call
   const inputTokensPerCall = input.inputTokens * requestsPerCall;
   const outputTokensPerCall = input.outputTokens * requestsPerCall;
 
-  // For DeepSeek, apply cache hit rate
   let inputCostPerCall: number;
-  if (model.cacheHitPricePerMillion && cacheHitRate > 0) {
-    const cacheHitCost =
-      (inputTokensPerCall * cacheHitRate * model.cacheHitPricePerMillion) /
-      1000000;
-    const cacheMissCost =
-      (inputTokensPerCall * (1 - cacheHitRate) * model.inputPricePerMillion) /
-      1000000;
+  if (model.caching.isSupported && model.caching.readPricePerM !== undefined && cacheHitRate > 0) {
+    const cacheHitCost = (inputTokensPerCall * cacheHitRate * model.caching.readPricePerM) / 1000000;
+    const cacheMissCost = (inputTokensPerCall * (1 - cacheHitRate) * model.inputPricePerM) / 1000000;
     inputCostPerCall = cacheHitCost + cacheMissCost;
   } else {
-    inputCostPerCall =
-      (inputTokensPerCall * model.inputPricePerMillion) / 1000000;
+    inputCostPerCall = (inputTokensPerCall * model.inputPricePerM) / 1000000;
   }
 
   const outputCostPerCall =
-    (outputTokensPerCall * model.outputPricePerMillion) / 1000000;
+    (outputTokensPerCall * model.outputPricePerM) / 1000000;
   const totalCostPerCall = inputCostPerCall + outputCostPerCall;
 
   // Calculate daily and monthly costs

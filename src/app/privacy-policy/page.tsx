@@ -75,9 +75,9 @@ export default function PrivacyPolicyPage() {
               </p>
               <ul className="list-disc list-inside space-y-2 ml-4">
                 <li>
-                  <strong className="text-gray-300">OpenRouter:</strong> We fetch model pricing data
-                  from the OpenRouter API. This data is publicly available pricing information and
-                  does not involve any personal data exchange.
+                  <strong className="text-gray-300">LiteLLM:</strong> We synchronize public model pricing data
+                  from LiteLLM&apos;s open pricing dataset during site maintenance. This does not involve
+                  any personal data exchange.
                 </li>
                 <li>
                   <strong className="text-gray-300">Google AdSense:</strong> We may display

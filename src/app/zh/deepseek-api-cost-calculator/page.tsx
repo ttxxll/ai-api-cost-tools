@@ -7,7 +7,7 @@ import Footer from '@/components/layout/Footer';
 export const metadata = {
   title: 'DeepSeek API 成本计算器 - 估算 DeepSeek 定价',
   description:
-    '计算 DeepSeek API 的调用成本，支持 V4-Flash、V4-Pro 模型。免费在线计算器。',
+    '计算 DeepSeek API 的调用成本，支持 Chat、Reasoner 模型。免费在线计算器。',
   alternates: {
     canonical: 'https://aiapicost.tools/zh/deepseek-api-cost-calculator',
     languages: { en: 'https://aiapicost.tools/deepseek-api-cost-calculator', zh: 'https://aiapicost.tools/zh/deepseek-api-cost-calculator' },
@@ -17,14 +17,14 @@ export const metadata = {
 export default function DeepSeekApiCostCalculatorZh() {
   const faqItems = [
     {
-      question: 'DeepSeek-V4-Flash 多少钱？',
+      question: 'DeepSeek Chat 多少钱？',
       answer:
-        'DeepSeek-V4-Flash 缓存未命中时每百万输入 token 收费 $0.112，每百万输出 token 收费 $0.224。缓存命中仅需 $0.0028。',
+        'DeepSeek Chat 每百万输入 token 收费 $0.28，每百万输出 token 收费 $0.42。缓存命中为每百万 token $0.028。',
     },
     {
-      question: 'DeepSeek-V4-Pro 价格是多少？',
+      question: 'DeepSeek Reasoner 价格是多少？',
       answer:
-        'DeepSeek-V4-Pro 目前提供 75% 折扣：每百万输入 token $0.435，每百万输出 token $0.87。原价为 $1.74/$3.48。',
+        'DeepSeek Reasoner 使用当前 LiteLLM 跟踪价格：每百万输入 token $0.28，每百万输出 token $0.42。',
     },
     {
       question: 'DeepSeek 缓存定价如何运作？',
@@ -44,7 +44,7 @@ export default function DeepSeekApiCostCalculatorZh() {
               DeepSeek API 成本计算器
             </h1>
             <p className="text-lg text-gray-400">
-              计算 DeepSeek API 的调用成本，支持 V4-Flash、V4-Pro 模型
+              计算 DeepSeek API 的调用成本，支持 Chat、Reasoner 模型
             </p>
           </div>
         </section>

@@ -1,6 +1,7 @@
 'use client';
 
 import {
+  getModelsByProvider,
   modelPricing,
   providers,
 } from '@/lib/data/modelPricing';
@@ -25,14 +26,12 @@ export default function ModelSelector({
 }: ModelSelectorProps) {
   const isCustom = value === 'custom';
 
-  const filteredModels = filterProvider
-    ? modelPricing.filter((m) => m.provider === filterProvider)
-    : modelPricing;
+  const filteredModels = filterProvider ? getModelsByProvider(filterProvider) : modelPricing;
 
   const groupedModels = providers
     .map((provider) => ({
       ...provider,
-      models: filteredModels.filter((m) => m.provider === provider.id),
+      models: filteredModels.filter((m) => m.provider === provider.provider),
     }))
     .filter((group) => group.models.length > 0);
 
@@ -56,7 +55,7 @@ export default function ModelSelector({
                 <optgroup key={group.id} label={group.name} className="bg-[#111827] text-gray-300">
                   {group.models.map((model) => (
                     <option key={model.id} value={model.id} className="bg-[#111827]">
-                      {model.name}
+                      {model.displayName}
                     </option>
                   ))}
                 </optgroup>
@@ -66,7 +65,7 @@ export default function ModelSelector({
               <button
                 onClick={() => {
                   onChange('custom');
-                  onCustomModelChange?.({ name: '', inputPricePerMillion: 0, outputPricePerMillion: 0 });
+                  onCustomModelChange?.({ name: '', inputPricePerM: 0, outputPricePerM: 0 });
                 }}
                 className="px-3 py-2.5 text-xs font-medium text-purple-400 bg-purple-500/10 border border-purple-500/20 rounded-xl hover:bg-purple-500/20 transition-colors whitespace-nowrap"
               >
@@ -103,8 +102,8 @@ function CustomModelInputs({
   onChange: (model: CustomModelData) => void;
 }) {
   const name = model?.name || '';
-  const inputPrice = model?.inputPricePerMillion ?? 0;
-  const outputPrice = model?.outputPricePerMillion ?? 0;
+  const inputPrice = model?.inputPricePerM ?? 0;
+  const outputPrice = model?.outputPricePerM ?? 0;
 
   return (
     <div className="mt-2 space-y-2 p-3 bg-purple-500/5 border border-purple-500/20 rounded-xl">
@@ -113,7 +112,7 @@ function CustomModelInputs({
         <input
           type="text"
           value={name}
-          onChange={(e) => onChange({ name: e.target.value, inputPricePerMillion: inputPrice, outputPricePerMillion: outputPrice })}
+          onChange={(e) => onChange({ name: e.target.value, inputPricePerM: inputPrice, outputPricePerM: outputPrice })}
           placeholder="e.g. My Custom LLM"
           className="w-full px-3 py-2 text-sm font-mono text-white bg-white/[0.03] border border-white/[0.08] rounded-lg focus:outline-none focus:border-purple-500/50 transition-all placeholder:text-gray-700"
         />
@@ -124,7 +123,7 @@ function CustomModelInputs({
           <input
             type="number"
             value={inputPrice || ''}
-            onChange={(e) => onChange({ name, inputPricePerMillion: Number(e.target.value) || 0, outputPricePerMillion: outputPrice })}
+            onChange={(e) => onChange({ name, inputPricePerM: Number(e.target.value) || 0, outputPricePerM: outputPrice })}
             min={0}
             step={0.01}
             className="w-full px-3 py-2 text-sm font-mono text-white bg-white/[0.03] border border-white/[0.08] rounded-lg focus:outline-none focus:border-purple-500/50 transition-all placeholder:text-gray-700"
@@ -136,7 +135,7 @@ function CustomModelInputs({
           <input
             type="number"
             value={outputPrice || ''}
-            onChange={(e) => onChange({ name, inputPricePerMillion: inputPrice, outputPricePerMillion: Number(e.target.value) || 0 })}
+            onChange={(e) => onChange({ name, inputPricePerM: inputPrice, outputPricePerM: Number(e.target.value) || 0 })}
             min={0}
             step={0.01}
             className="w-full px-3 py-2 text-sm font-mono text-white bg-white/[0.03] border border-white/[0.08] rounded-lg focus:outline-none focus:border-purple-500/50 transition-all placeholder:text-gray-700"
@@ -156,11 +155,11 @@ function ModelInfo({ modelId }: { modelId: string }) {
     <div className="mt-2 grid grid-cols-2 gap-1.5">
       <div className="flex justify-between bg-purple-500/10 border border-purple-500/20 rounded-lg px-2.5 py-1.5 text-xs">
         <span className="text-gray-500">Input</span>
-        <span className="font-mono font-semibold text-purple-400">${model.inputPricePerMillion}/M</span>
+        <span className="font-mono font-semibold text-purple-400">${model.inputPricePerM}/M</span>
       </div>
       <div className="flex justify-between bg-cyan-500/10 border border-cyan-500/20 rounded-lg px-2.5 py-1.5 text-xs">
         <span className="text-gray-500">Output</span>
-        <span className="font-mono font-semibold text-cyan-400">${model.outputPricePerMillion}/M</span>
+        <span className="font-mono font-semibold text-cyan-400">${model.outputPricePerM}/M</span>
       </div>
     </div>
   );

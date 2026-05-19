@@ -11,12 +11,12 @@ const WORDS_TO_TOKENS = 1.33;
 const CHARS_TO_TOKENS = 0.25;
 
 const providerColors: Record<string, string> = {
-  openai: 'bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200',
-  anthropic: 'bg-orange-100 text-orange-800 dark:bg-orange-900 dark:text-orange-200',
-  google: 'bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-200',
-  deepseek: 'bg-purple-100 text-purple-800 dark:bg-purple-900 dark:text-purple-200',
-  mistral: 'bg-amber-100 text-amber-800 dark:bg-amber-900 dark:text-amber-200',
-  xai: 'bg-gray-100 text-gray-800 dark:bg-gray-700 dark:text-gray-200',
+  OpenAI: 'bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200',
+  Anthropic: 'bg-orange-100 text-orange-800 dark:bg-orange-900 dark:text-orange-200',
+  Google: 'bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-200',
+  DeepSeek: 'bg-purple-100 text-purple-800 dark:bg-purple-900 dark:text-purple-200',
+  Mistral: 'bg-amber-100 text-amber-800 dark:bg-amber-900 dark:text-amber-200',
+  xAI: 'bg-gray-100 text-gray-800 dark:bg-gray-700 dark:text-gray-200',
 };
 
 interface ComparisonCalculatorProps {
@@ -47,15 +47,15 @@ export default function ComparisonCalculator({ locale = 'en' }: ComparisonCalcul
       : Math.round(outputValue * CHARS_TO_TOKENS);
 
   const calculations = modelPricing.map((model) => {
-    const inputCostPerCall = (inputTokens * model.inputPricePerMillion) / 1000000;
-    const outputCostPerCall = (outputTokens * model.outputPricePerMillion) / 1000000;
+    const inputCostPerCall = (inputTokens * model.inputPricePerM) / 1000000;
+    const outputCostPerCall = (outputTokens * model.outputPricePerM) / 1000000;
     const costPerCall = inputCostPerCall + outputCostPerCall;
     const totalCost = costPerCall * calls;
     return {
       ...model,
       costPerCall,
       totalCost,
-      providerName: providers.find((p) => p.id === model.provider)?.name || model.provider,
+      providerName: providers.find((p) => p.provider === model.provider)?.name || model.provider,
     };
   });
 
@@ -211,7 +211,7 @@ export default function ComparisonCalculator({ locale = 'en' }: ComparisonCalcul
                     <td className="px-4 py-3">
                       <div className="flex items-center gap-2">
                         <span className="font-medium text-gray-900 dark:text-white text-sm">
-                          {calc.name}
+                          {calc.displayName}
                         </span>
                         {index === 0 && (
                           <span className="inline-flex items-center px-1.5 py-0.5 rounded text-[10px] font-bold bg-green-500 text-white uppercase">
@@ -219,17 +219,12 @@ export default function ComparisonCalculator({ locale = 'en' }: ComparisonCalcul
                           </span>
                         )}
                       </div>
-                      {calc.notes && (
-                        <p className="text-[11px] text-amber-600 dark:text-amber-400 mt-0.5">
-                          {calc.notes}
-                        </p>
-                      )}
                     </td>
                     <td className="px-4 py-3 text-right text-sm text-gray-600 dark:text-gray-400 font-mono">
-                      ${calc.inputPricePerMillion.toFixed(2)}
+                      ${calc.inputPricePerM.toFixed(2)}
                     </td>
                     <td className="px-4 py-3 text-right text-sm text-gray-600 dark:text-gray-400 font-mono">
-                      ${calc.outputPricePerMillion.toFixed(2)}
+                      ${calc.outputPricePerM.toFixed(2)}
                     </td>
                     <td className="px-4 py-3 text-right text-sm font-mono text-gray-900 dark:text-white">
                       ${formatCost(calc.costPerCall)}
