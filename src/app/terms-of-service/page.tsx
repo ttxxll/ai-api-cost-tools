@@ -41,7 +41,7 @@ export default function TermsOfServicePage() {
               </p>
               <p>
                 The pricing data displayed is sourced from publicly available information and
-                LiteLLM&apos;s open model pricing dataset. We make reasonable efforts to keep this data
+                OpenRouter&apos;s official Models endpoint. We make reasonable efforts to keep this data
                 accurate and up-to-date, but we cannot guarantee its accuracy.
               </p>
             </section>

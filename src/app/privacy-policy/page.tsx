@@ -75,8 +75,8 @@ export default function PrivacyPolicyPage() {
               </p>
               <ul className="list-disc list-inside space-y-2 ml-4">
                 <li>
-                  <strong className="text-gray-300">LiteLLM:</strong> We synchronize public model pricing data
-                  from LiteLLM&apos;s open pricing dataset during site maintenance. This does not involve
+                  <strong className="text-gray-300">OpenRouter:</strong> We synchronize public model pricing data
+                  from OpenRouter&apos;s official Models endpoint during site maintenance. This does not involve
                   any personal data exchange.
                 </li>
                 <li>

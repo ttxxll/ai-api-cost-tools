@@ -24,7 +24,7 @@ export default function DeepSeekApiCostCalculatorZh() {
     {
       question: 'DeepSeek Reasoner 价格是多少？',
       answer:
-        'DeepSeek Reasoner 使用当前 LiteLLM 跟踪价格：每百万输入 token $0.28，每百万输出 token $0.42。',
+        'DeepSeek Reasoner 使用当前 OpenRouter 跟踪价格：每百万输入 token $0.28，每百万输出 token $0.42。',
     },
     {
       question: 'DeepSeek 缓存定价如何运作？',

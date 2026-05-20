@@ -1,4 +1,4 @@
-name: Sync LiteLLM Pricing
+name: Sync OpenRouter Pricing
 
 on:
   schedule:
@@ -39,5 +39,5 @@ jobs:
           git add src/lib/data/modelsPricing.ts
           git -c user.name="github-actions[bot]" \
               -c user.email="41898282+github-actions[bot]@users.noreply.github.com" \
-              commit -m "chore: sync LiteLLM pricing data"
+              commit -m "chore: sync OpenRouter pricing data"
           git push

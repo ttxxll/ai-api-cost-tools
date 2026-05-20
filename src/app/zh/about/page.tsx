@@ -55,7 +55,7 @@ export default function AboutPageZh() {
             <section>
               <h2 className="text-lg font-semibold text-white mb-3">工作原理</h2>
               <p className="mb-3">
-                我们的定价数据来自 LiteLLM 开源模型价格库，并定期同步到静态站点中，以确保合理的准确性同时保持快速的加载速度。
+                我们的定价数据来自 OpenRouter 官方 Models 端点，并定期同步到静态站点中，以确保合理的准确性同时保持快速的加载速度。
               </p>
               <p>
                 所有计算直接在您的浏览器中完成 — 我们不会在服务器上存储您的输入数据或计算结果。这意味着您的成本估算完全私密，且无需任何账户或登录即可使用。
@@ -75,7 +75,7 @@ export default function AboutPageZh() {
             <section>
               <h2 className="text-lg font-semibold text-white mb-3">数据来源</h2>
               <p className="mb-3">
-                模型定价数据来自 LiteLLM 开源模型价格库，并生成到静态站点中。正常使用不需要运行时定价 API。
+                模型定价数据来自 OpenRouter 官方 Models 端点，并生成到静态站点中。正常使用不需要运行时定价 API。
               </p>
               <p>
                 我们与任何 AI 供应商没有关联。所有供应商名称和商标属于其各自所有者。

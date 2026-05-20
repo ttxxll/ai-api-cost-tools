@@ -42,7 +42,7 @@ export function calculateApiCost(input: ApiCostInput): ApiCostResult | null {
       outputPricePerM: custom.outputPricePerM ?? custom.outputPricePerMillion ?? 0,
       caching: { isSupported: false },
       maxOutput: 0,
-      litellmId: 'custom',
+      openRouterId: 'custom',
     };
     return computeCost(input, model);
   }

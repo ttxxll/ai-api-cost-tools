@@ -61,7 +61,7 @@ export default function AboutPage() {
             <section>
               <h2 className="text-lg font-semibold text-white mb-3">How It Works</h2>
               <p className="mb-3">
-                Our pricing data comes from LiteLLM&apos;s open model pricing dataset. The data is
+                Our pricing data comes from OpenRouter&apos;s official Models endpoint. The data is
                 synchronized into this static site periodically to ensure reasonable accuracy while
                 maintaining fast load times.
               </p>
@@ -91,7 +91,7 @@ export default function AboutPage() {
             <section>
               <h2 className="text-lg font-semibold text-white mb-3">Data Sources</h2>
               <p className="mb-3">
-                Model pricing data is sourced from LiteLLM&apos;s open model pricing dataset and
+                Model pricing data is sourced from OpenRouter&apos;s official Models endpoint and
                 generated into the static site. No runtime pricing API is required for normal use.
               </p>
               <p>

@@ -16,7 +16,7 @@ export interface ModelPricing {
 
 export interface ModelPricingRecord extends ModelPricing {
   maxOutput: number;
-  litellmId: string;
+  openRouterId: string;
 }
 
 export const MODELS_DATA: ModelPricingRecord[] = [
@@ -33,7 +33,7 @@ export const MODELS_DATA: ModelPricingRecord[] = [
       readPricePerM: 0.5
     },
     maxOutput: 128000,
-    litellmId: "claude-opus-4-7"
+    openRouterId: "anthropic/claude-opus-4.7"
   },
   {
     id: "claude-sonnet-4.6",
@@ -47,14 +47,14 @@ export const MODELS_DATA: ModelPricingRecord[] = [
       writePricePerM: 3.75,
       readPricePerM: 0.3
     },
-    maxOutput: 64000,
-    litellmId: "claude-sonnet-4-6"
+    maxOutput: 128000,
+    openRouterId: "anthropic/claude-sonnet-4.6"
   },
   {
     id: "claude-sonnet-4.5",
     provider: "Anthropic",
     displayName: "Claude Sonnet 4.5",
-    contextWindow: 200000,
+    contextWindow: 1000000,
     inputPricePerM: 3,
     outputPricePerM: 15,
     caching: {
@@ -63,7 +63,7 @@ export const MODELS_DATA: ModelPricingRecord[] = [
       readPricePerM: 0.3
     },
     maxOutput: 64000,
-    litellmId: "claude-sonnet-4-5"
+    openRouterId: "anthropic/claude-sonnet-4.5"
   },
   {
     id: "claude-haiku-4.5",
@@ -78,7 +78,7 @@ export const MODELS_DATA: ModelPricingRecord[] = [
       readPricePerM: 0.1
     },
     maxOutput: 64000,
-    litellmId: "claude-haiku-4-5"
+    openRouterId: "anthropic/claude-haiku-4.5"
   },
   {
     id: "gpt-5.5-pro",
@@ -88,12 +88,10 @@ export const MODELS_DATA: ModelPricingRecord[] = [
     inputPricePerM: 30,
     outputPricePerM: 180,
     caching: {
-      isSupported: true,
-      writePricePerM: 30,
-      readPricePerM: 3
+      isSupported: false
     },
     maxOutput: 128000,
-    litellmId: "gpt-5.5-pro"
+    openRouterId: "openai/gpt-5.5-pro"
   },
   {
     id: "gpt-5.5",
@@ -108,58 +106,13 @@ export const MODELS_DATA: ModelPricingRecord[] = [
       readPricePerM: 0.5
     },
     maxOutput: 128000,
-    litellmId: "gpt-5.5"
-  },
-  {
-    id: "gpt-5.4-pro",
-    provider: "OpenAI",
-    displayName: "GPT-5.4 Pro",
-    contextWindow: 1050000,
-    inputPricePerM: 30,
-    outputPricePerM: 180,
-    caching: {
-      isSupported: true,
-      writePricePerM: 30,
-      readPricePerM: 3
-    },
-    maxOutput: 128000,
-    litellmId: "gpt-5.4-pro"
-  },
-  {
-    id: "gpt-5.4",
-    provider: "OpenAI",
-    displayName: "GPT-5.4",
-    contextWindow: 1050000,
-    inputPricePerM: 2.5,
-    outputPricePerM: 15,
-    caching: {
-      isSupported: true,
-      writePricePerM: 2.5,
-      readPricePerM: 0.25
-    },
-    maxOutput: 128000,
-    litellmId: "gpt-5.4"
-  },
-  {
-    id: "gpt-5.4-mini",
-    provider: "OpenAI",
-    displayName: "GPT-5.4 Mini",
-    contextWindow: 272000,
-    inputPricePerM: 0.75,
-    outputPricePerM: 4.5,
-    caching: {
-      isSupported: true,
-      writePricePerM: 0.75,
-      readPricePerM: 0.075
-    },
-    maxOutput: 128000,
-    litellmId: "gpt-5.4-mini"
+    openRouterId: "openai/gpt-5.5"
   },
   {
     id: "gpt-5",
     provider: "OpenAI",
     displayName: "GPT-5",
-    contextWindow: 272000,
+    contextWindow: 400000,
     inputPricePerM: 1.25,
     outputPricePerM: 10,
     caching: {
@@ -168,7 +121,7 @@ export const MODELS_DATA: ModelPricingRecord[] = [
       readPricePerM: 0.125
     },
     maxOutput: 128000,
-    litellmId: "gpt-5"
+    openRouterId: "openai/gpt-5"
   },
   {
     id: "gpt-4o",
@@ -178,12 +131,10 @@ export const MODELS_DATA: ModelPricingRecord[] = [
     inputPricePerM: 2.5,
     outputPricePerM: 10,
     caching: {
-      isSupported: true,
-      writePricePerM: 2.5,
-      readPricePerM: 1.25
+      isSupported: false
     },
     maxOutput: 16384,
-    litellmId: "gpt-4o"
+    openRouterId: "openai/gpt-4o"
   },
   {
     id: "gpt-4o-mini",
@@ -198,7 +149,7 @@ export const MODELS_DATA: ModelPricingRecord[] = [
       readPricePerM: 0.075
     },
     maxOutput: 16384,
-    litellmId: "gpt-4o-mini"
+    openRouterId: "openai/gpt-4o-mini"
   },
   {
     id: "o3",
@@ -213,7 +164,7 @@ export const MODELS_DATA: ModelPricingRecord[] = [
       readPricePerM: 0.5
     },
     maxOutput: 100000,
-    litellmId: "o3"
+    openRouterId: "openai/o3"
   },
   {
     id: "o3-mini",
@@ -228,37 +179,7 @@ export const MODELS_DATA: ModelPricingRecord[] = [
       readPricePerM: 0.55
     },
     maxOutput: 100000,
-    litellmId: "o3-mini"
-  },
-  {
-    id: "gemini-3.1-pro-preview",
-    provider: "Google",
-    displayName: "Gemini 3.1 Pro Preview",
-    contextWindow: 1048576,
-    inputPricePerM: 2,
-    outputPricePerM: 12,
-    caching: {
-      isSupported: true,
-      writePricePerM: 2,
-      readPricePerM: 0.2
-    },
-    maxOutput: 65536,
-    litellmId: "gemini-3.1-pro-preview"
-  },
-  {
-    id: "gemini-3.1-flash-lite-preview",
-    provider: "Google",
-    displayName: "Gemini 3.1 Flash Lite Preview",
-    contextWindow: 1048576,
-    inputPricePerM: 0.25,
-    outputPricePerM: 1.5,
-    caching: {
-      isSupported: true,
-      writePricePerM: 0.25,
-      readPricePerM: 0.025
-    },
-    maxOutput: 65536,
-    litellmId: "gemini-3.1-flash-lite-preview"
+    openRouterId: "openai/o3-mini"
   },
   {
     id: "gemini-2.5-pro",
@@ -269,11 +190,11 @@ export const MODELS_DATA: ModelPricingRecord[] = [
     outputPricePerM: 10,
     caching: {
       isSupported: true,
-      writePricePerM: 1.25,
+      writePricePerM: 0.375,
       readPricePerM: 0.125
     },
-    maxOutput: 65535,
-    litellmId: "gemini-2.5-pro"
+    maxOutput: 65536,
+    openRouterId: "google/gemini-2.5-pro"
   },
   {
     id: "gemini-2.5-flash",
@@ -284,11 +205,11 @@ export const MODELS_DATA: ModelPricingRecord[] = [
     outputPricePerM: 2.5,
     caching: {
       isSupported: true,
-      writePricePerM: 0.3,
+      writePricePerM: 0.083333333,
       readPricePerM: 0.03
     },
     maxOutput: 65535,
-    litellmId: "gemini-2.5-flash"
+    openRouterId: "google/gemini-2.5-flash"
   },
   {
     id: "gemini-2.5-flash-lite",
@@ -299,41 +220,54 @@ export const MODELS_DATA: ModelPricingRecord[] = [
     outputPricePerM: 0.4,
     caching: {
       isSupported: true,
-      writePricePerM: 0.1,
+      writePricePerM: 0.083333333,
       readPricePerM: 0.01
     },
     maxOutput: 65535,
-    litellmId: "gemini-2.5-flash-lite"
+    openRouterId: "google/gemini-2.5-flash-lite"
+  },
+  {
+    id: "deepseek-v4-pro",
+    provider: "DeepSeek",
+    displayName: "DeepSeek V4 Pro",
+    contextWindow: 1048576,
+    inputPricePerM: 0.435,
+    outputPricePerM: 0.87,
+    caching: {
+      isSupported: true,
+      writePricePerM: 0.435,
+      readPricePerM: 0.003625
+    },
+    maxOutput: 384000,
+    openRouterId: "deepseek/deepseek-v4-pro"
+  },
+  {
+    id: "deepseek-v4-flash",
+    provider: "DeepSeek",
+    displayName: "DeepSeek V4 Flash",
+    contextWindow: 1048576,
+    inputPricePerM: 0.112,
+    outputPricePerM: 0.224,
+    caching: {
+      isSupported: true,
+      writePricePerM: 0.112,
+      readPricePerM: 0.022
+    },
+    maxOutput: 0,
+    openRouterId: "deepseek/deepseek-v4-flash"
   },
   {
     id: "deepseek-chat",
     provider: "DeepSeek",
     displayName: "DeepSeek Chat",
-    contextWindow: 131072,
-    inputPricePerM: 0.28,
-    outputPricePerM: 0.42,
+    contextWindow: 163840,
+    inputPricePerM: 0.32,
+    outputPricePerM: 0.89,
     caching: {
-      isSupported: true,
-      writePricePerM: 0.28,
-      readPricePerM: 0.028
+      isSupported: false
     },
-    maxOutput: 8192,
-    litellmId: "deepseek-chat"
-  },
-  {
-    id: "deepseek-reasoner",
-    provider: "DeepSeek",
-    displayName: "DeepSeek Reasoner",
-    contextWindow: 131072,
-    inputPricePerM: 0.28,
-    outputPricePerM: 0.42,
-    caching: {
-      isSupported: true,
-      writePricePerM: 0.28,
-      readPricePerM: 0.028
-    },
-    maxOutput: 65536,
-    litellmId: "deepseek-reasoner"
+    maxOutput: 16384,
+    openRouterId: "deepseek/deepseek-chat"
   },
   {
     id: "mistral-large-latest",
@@ -343,10 +277,12 @@ export const MODELS_DATA: ModelPricingRecord[] = [
     inputPricePerM: 0.5,
     outputPricePerM: 1.5,
     caching: {
-      isSupported: false
+      isSupported: true,
+      writePricePerM: 0.5,
+      readPricePerM: 0.05
     },
-    maxOutput: 262144,
-    litellmId: "mistral/mistral-large-latest"
+    maxOutput: 0,
+    openRouterId: "mistralai/mistral-large-2512"
   },
   {
     id: "mistral-medium-2505",
@@ -356,49 +292,57 @@ export const MODELS_DATA: ModelPricingRecord[] = [
     inputPricePerM: 0.4,
     outputPricePerM: 2,
     caching: {
-      isSupported: false
+      isSupported: true,
+      writePricePerM: 0.4,
+      readPricePerM: 0.04
     },
-    maxOutput: 8191,
-    litellmId: "mistral/mistral-medium-2505"
+    maxOutput: 0,
+    openRouterId: "mistralai/mistral-medium-3"
   },
   {
     id: "mistral-small-latest",
     provider: "Mistral",
     displayName: "Mistral Small Latest",
-    contextWindow: 131072,
-    inputPricePerM: 0.06,
-    outputPricePerM: 0.18,
+    contextWindow: 262144,
+    inputPricePerM: 0.15,
+    outputPricePerM: 0.6,
     caching: {
-      isSupported: false
+      isSupported: true,
+      writePricePerM: 0.15,
+      readPricePerM: 0.015
     },
-    maxOutput: 131072,
-    litellmId: "mistral/mistral-small-latest"
+    maxOutput: 0,
+    openRouterId: "mistralai/mistral-small-2603"
   },
   {
-    id: "grok-3",
+    id: "grok-4.3",
     provider: "xAI",
-    displayName: "Grok 3",
-    contextWindow: 131072,
-    inputPricePerM: 3,
-    outputPricePerM: 15,
+    displayName: "Grok 4.3",
+    contextWindow: 1000000,
+    inputPricePerM: 1.25,
+    outputPricePerM: 2.5,
     caching: {
-      isSupported: false
+      isSupported: true,
+      writePricePerM: 1.25,
+      readPricePerM: 0.2
     },
-    maxOutput: 131072,
-    litellmId: "azure_ai/grok-3"
+    maxOutput: 0,
+    openRouterId: "x-ai/grok-4.3"
   },
   {
-    id: "grok-3-mini",
+    id: "grok-4.20",
     provider: "xAI",
-    displayName: "Grok 3 Mini",
-    contextWindow: 131072,
-    inputPricePerM: 0.25,
-    outputPricePerM: 1.27,
+    displayName: "Grok 4.20",
+    contextWindow: 2000000,
+    inputPricePerM: 1.25,
+    outputPricePerM: 2.5,
     caching: {
-      isSupported: false
+      isSupported: true,
+      writePricePerM: 1.25,
+      readPricePerM: 0.2
     },
-    maxOutput: 131072,
-    litellmId: "azure_ai/grok-3-mini"
+    maxOutput: 0,
+    openRouterId: "x-ai/grok-4.20"
   }
 ];
 
@@ -444,6 +388,7 @@ const providerAliases: Record<string, ModelProvider> = {
   gemini: "Google",
   deepseek: "DeepSeek",
   mistral: "Mistral",
+  mistralai: "Mistral",
   xai: "xAI",
   "x-ai": "xAI",
   grok: "xAI"
@@ -469,7 +414,7 @@ export function getModelsByProvider(provider: string): ModelPricingRecord[] {
 export function getModelById(id: string): ModelPricingRecord | undefined {
   const stripped = id.includes('/') ? id.split('/').pop()! : id;
   return MODELS_DATA.find(
-    (model) => model.id === id || model.id === stripped || model.litellmId === id || model.litellmId === stripped
+    (model) => model.id === id || model.id === stripped || model.openRouterId === id || model.openRouterId === stripped
   );
 }
 

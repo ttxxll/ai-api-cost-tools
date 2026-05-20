@@ -110,7 +110,7 @@ export default function Home() {
             <div className="flex items-center gap-3 mb-6">
               <h2 className="text-xl font-bold text-white">Live Model Pricing</h2>
               <span className="text-[10px] text-gray-500 bg-white/[0.03] px-2 py-0.5 rounded-full border border-white/[0.06]">
-                via LiteLLM
+                via OpenRouter
               </span>
             </div>
             <LiveComparisonCalculator onSelectModel={handleSelectModel} />
@@ -178,7 +178,7 @@ export default function Home() {
               {[
                 {
                   q: 'How accurate are the cost estimates?',
-                  a: "Our pricing data comes from LiteLLM's open model pricing dataset and is refreshed regularly. The calculations are mathematically precise based on the pricing data we have. However, providers may update their pricing at any time, so we recommend verifying with official documentation before making financial decisions.",
+                  a: "Our pricing data comes from OpenRouter's official Models endpoint and is refreshed regularly. The calculations are mathematically precise based on the pricing data we have. However, providers may update their pricing at any time, so we recommend verifying with official documentation before making financial decisions.",
                 },
                 {
                   q: 'Which AI providers do you support?',

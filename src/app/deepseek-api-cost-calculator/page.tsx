@@ -24,7 +24,7 @@ export default function DeepSeekApiCostCalculator() {
     {
       question: 'What is DeepSeek Reasoner pricing?',
       answer:
-        'DeepSeek Reasoner uses the same tracked LiteLLM pricing: $0.28 per million input tokens and $0.42 per million output tokens.',
+        'DeepSeek Reasoner uses the tracked OpenRouter pricing: $0.28 per million input tokens and $0.42 per million output tokens.',
     },
     {
       question: 'How does DeepSeek cache pricing work?',

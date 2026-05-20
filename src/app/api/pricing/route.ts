@@ -15,8 +15,8 @@ export function GET() {
       contextWindow: model.contextWindow,
       maxOutput: model.maxOutput,
       caching: model.caching,
-      litellmId: model.litellmId,
+      openRouterId: model.openRouterId,
     })),
-    source: 'litellm-static',
+    source: 'openrouter-static',
   });
 }

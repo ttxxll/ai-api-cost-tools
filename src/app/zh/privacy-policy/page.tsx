@@ -63,7 +63,7 @@ export default function PrivacyPolicyPageZh() {
               <p className="mb-3">我们使用以下第三方服务：</p>
               <ul className="list-disc list-inside space-y-2 ml-4">
                 <li>
-                  <strong className="text-gray-300">LiteLLM：</strong>我们在站点维护期间从 LiteLLM 开源价格库同步公开模型定价数据。这不涉及任何个人数据交换。
+                  <strong className="text-gray-300">OpenRouter：</strong>我们在站点维护期间从 OpenRouter 官方 Models 端点同步公开模型定价数据。这不涉及任何个人数据交换。
                 </li>
                 <li>
                   <strong className="text-gray-300">Google AdSense：</strong>我们可能会展示由 Google AdSense 提供的广告。Google 可能会使用 Cookie 根据您对我们网站或其他网站的先前访问来投放广告。您可以通过访问 Google 广告设置来选择退出个性化广告。

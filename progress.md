@@ -1,115 +1,82 @@
 # Progress Log
 
-## Session: 2026-05-19
+## Session: 2026-05-20 OpenRouter pricing migration
 
-### Phase 1: Explore Current Data Flow
-- **Status:** in_progress
+### Restore and Re-scope
+- **Status:** complete
 - Actions taken:
   - Restored existing planning files and ran planning-with-files session catchup.
-  - Replaced the old completed plan with the new LiteLLM pricing refactor plan.
-  - Created visible tasks for exploration, implementation, automation, UI wiring, GitHub Actions, and verification.
-  - Inspected existing static pricing, calculator consumers, dynamic pricing API route, package scripts, and Next.js route handler docs.
-  - Fetched LiteLLM model cost JSON schema summary for pricing/context/cache fields.
-  - Created `src/lib/data/modelsPricing.ts` with `ModelPricing`, `MODELS_DATA`, cache pricing, LiteLLM IDs, and compatibility helpers.
-  - Converted `src/lib/data/modelPricing.ts` into a compatibility re-export.
-  - Began migrating consumers from legacy `name` and `inputPricePerMillion` fields to `displayName` and `inputPricePerM`.
-  - Added `scripts/sync-litellm-pricing.mjs`, wired `npm run sync:pricing`, and confirmed it syncs 26 LiteLLM-backed records.
+  - Replaced the completed LiteLLM plan with a new OpenRouter Models endpoint migration plan.
+  - Created visible task tracking for planning, inspection, implementation, and verification.
 - Files created/modified:
-  - `task_plan.md` (updated)
-  - `progress.md` (updated)
-  - `findings.md` (updated)
-  - `src/lib/data/modelsPricing.ts` (created)
-  - `src/lib/data/modelPricing.ts` (updated)
-  - Calculator and pricing consumer files (updated)
+  - `task_plan.md`
+  - `findings.md`
+  - `progress.md`
 
-## Session: 2026-05-18
-
-### Phase 1: Restore Context
-- **Status:** complete
-- **Started:** 2026-05-18
-- Actions taken:
-  - Checked for existing planning files in the project root and `.planning/`.
-  - Ran planning-with-files `session-catchup.py`.
-  - Ran `git status --short`, `git diff --stat`, and `git diff -- src/app/page.tsx`.
-  - Created fresh planning files because no prior plan was found.
-- Files created/modified:
-  - `task_plan.md` (created)
-  - `findings.md` (created)
-  - `progress.md` (created)
-
-### Phase 2: Review Uncommitted Changes
+### Phase 1: Inspect Current Pricing Pipeline
 - **Status:** complete
 - Actions taken:
-  - Inventoried the untracked website expansion: calculators, SEO/PWA files, legal/support pages, Chinese pages, API pricing route, shared components, and data modules.
-  - Identified likely completion gaps: DeepSeek pricing copy mismatch and pricing API fallback status behavior.
-  - Confirmed production build already passed before fixes.
-- Files created/modified:
-  - `findings.md` (updated)
-
-### Phase 3: Complete Implementation
-- **Status:** complete
-- Actions taken:
-  - Changed `/api/pricing` fallback to return JSON fallback data with HTTP 200 and `success: false` instead of surfacing a 500 status for a handled upstream pricing failure.
-  - Updated English and Chinese DeepSeek V4 Flash pricing FAQ/comparison copy from `$0.14/$0.28` to `$0.112/$0.224` to match `modelPricing.ts`.
-  - Updated the English DeepSeek example calculation totals to match the data table.
-- Files created/modified:
+  - Found `scripts/sync-litellm-pricing.mjs` as the current equivalent of the requested pricing updater.
+  - Inspected generated `src/lib/data/modelsPricing.ts`, `package.json`, the weekly workflow, `/api/pricing`, and calculator custom model construction.
+  - Confirmed OpenRouter's endpoint shape and key pricing fields.
+- Files read/inspected:
+  - `scripts/sync-litellm-pricing.mjs`
+  - `src/lib/data/modelsPricing.ts`
+  - `package.json`
+  - `.github/workflows/sync-litellm-pricing.yml`
   - `src/app/api/pricing/route.ts`
-  - `src/app/deepseek-api-cost-calculator/page.tsx`
-  - `src/app/zh/deepseek-api-cost-calculator/page.tsx`
-  - `src/app/ai-model-price-comparison/page.tsx`
-  - `src/app/zh/ai-model-price-comparison/page.tsx`
+  - `src/lib/calculators/apiCost.ts`
+
+### Phase 2: Implement OpenRouter Models Sync
+- **Status:** complete
+- Actions taken:
+  - Added `scripts/update-prices.mjs` to fetch OpenRouter Models with a User-Agent header.
+  - Added OpenRouter ID mapping for target providers/models and optional handling for missing legacy models.
+  - Converted prompt/completion/cache prices to per-million-token pricing.
+  - Added cache fallback ratios per provider when cache fields are missing/zero on cache-capable models.
+  - Added canonical `openRouterId` to generated records and removed `litellmId` from generated TypeScript.
+  - Updated `npm run sync:pricing` to call the new script.
+  - Kept `scripts/sync-litellm-pricing.mjs` as a compatibility shim.
+  - Updated API route source metadata and custom-model typing compatibility.
+  - Replaced user-visible LiteLLM source copy with OpenRouter copy.
+- Files created/modified:
+  - `scripts/update-prices.mjs`
+  - `scripts/sync-litellm-pricing.mjs`
+  - `package.json`
+  - `src/lib/data/modelsPricing.ts`
+  - `src/app/api/pricing/route.ts`
+  - `src/lib/calculators/apiCost.ts`
+  - English and Chinese page copy files that referenced LiteLLM.
+
+### Phase 3: Regenerate Data
+- **Status:** complete
+- Actions taken:
+  - Ran `npm run sync:pricing`; generated 22 OpenRouter-backed model pricing records.
+  - Confirmed representative generated data includes `gpt-5.5`, `deepseek-v4-flash`, per-million prompt/completion prices, `openRouterId`, and cache read/write pricing.
+  - Confirmed no `LiteLLM`, `litellm`, or `litellmId` strings remain under `src` or `scripts`.
 
 ### Phase 4: Verification
 - **Status:** complete
 - Actions taken:
-  - Re-ran search for stale `$0.14`, `$0.28`, and old example totals; no matches found.
-  - Re-ran lint and production build successfully.
-  - Checked local dev routes over HTTP; homepage, Chinese homepage, DeepSeek pages, comparison page, pricing API, sitemap, and robots all returned 200.
-- Files created/modified:
-  - `progress.md` (updated)
-
-### Phase 6: Verification
-- **Status:** complete
-- Actions taken:
-  - Ran `npm run sync:pricing`; generated 26 LiteLLM-backed pricing records.
-  - Ran `npm run lint`; passed after fixing string escaping and metadata syntax issues.
-  - Ran `npm run build`; passed after installing missing declared dependencies and removing obsolete `notes` access.
-  - Started local dev server and checked `/`, `/api/pricing`, `/deepseek-api-cost-calculator`, `/ai-model-price-comparison`, `/zh`, and `/zh/deepseek-api-cost-calculator`; all returned 200.
-  - Confirmed no remaining `OpenRouter`, DeepSeek V4 stale prices, or frontend `/api/pricing` fetch references under `src`.
-- Files created/modified:
-  - `.github/workflows/sync-litellm-pricing.yml` (created)
-  - `scripts/sync-litellm-pricing.mjs` (created)
-  - `package.json` (updated)
-  - `src/components/calculators/LiveComparisonCalculator.tsx` (updated)
-  - `src/app/api/pricing/route.ts` (updated)
-  - Pricing consumer and copy files (updated)
+  - Ran lint successfully.
+  - Ran production build successfully.
+  - Started local dev server and checked `/`, `/zh`, `/api/pricing`, `/deepseek-api-cost-calculator`, and `/ai-model-price-comparison`; all returned 200.
+  - Confirmed `/api/pricing` reports `source=openrouter-static`, `count=22`, and includes `deepseek-v4-flash`.
+  - Stopped the local dev server.
+  - Browser UI interaction testing was not performed because no browser automation tool is available in this environment.
 
 ## Test Results
 | Test | Input | Expected | Actual | Status |
 |------|-------|----------|--------|--------|
-| LiteLLM sync | `npm run sync:pricing` | Generate deterministic static pricing data | Synced 26 model pricing records | pass |
-| Lint | `npm run lint` | ESLint reports no issues | No lint errors output | pass |
-| Production build | `npm run build` | Next.js app builds successfully | Build passed; 34 app routes generated, `/api/pricing` static | pass |
-| Local route checks | HTTP GET selected routes on localhost:3000 | Key pages and pricing API return 200 | All selected routes returned 200 | pass |
-| Stale source search | Grep for OpenRouter/runtime fetch/stale DeepSeek V4 prices | No stale references under `src` | No matches found | pass |
-| Dev server startup | `npm run dev` | Next.js server listens locally | Port 3000 is listening | pass |
-| Production build | `npm run build` | Next.js app builds successfully | Build passed; 34 app routes generated | pass |
-| Lint | `npm run lint` | ESLint reports no issues | No lint errors output | pass |
-| Stale price search | Grep for `$0.14`, `$0.28`, old example totals | No stale DeepSeek V4 Flash copy remains | No matches found | pass |
-| Local route checks | HTTP GET selected routes on localhost:3000 | Key pages/API/SEO routes return 200 | All selected routes returned 200 | pass |
+| OpenRouter endpoint inspection | PowerShell `Invoke-RestMethod` with User-Agent | Returns model `data[]` | Returned target model IDs/prices | pass |
+| Pricing sync | `npm run sync:pricing` | Generate OpenRouter static pricing | Synced 22 model pricing records from OpenRouter | pass |
+| Stale source search | Grep `LiteLLM`, `litellm`, `litellmId` under `src`/`scripts` | No matches | No matches found | pass |
+| Lint | `npm run lint` | No ESLint errors | No errors | pass |
+| Build | `npm run build` | Next.js production build succeeds | Build passed; 34 app routes generated | pass |
+| Local route checks | HTTP GET selected routes on localhost:3000 | 200 responses and OpenRouter pricing API metadata | All selected routes returned 200; pricing API source `openrouter-static` | pass |
 
 ## Error Log
 | Timestamp | Error | Attempt | Resolution |
 |-----------|-------|---------|------------|
-| 2026-05-18 | No prior planning files found | 1 | Created fresh planning files in project root. |
-| 2026-05-18 | `session-catchup.py` produced no context | 1 | Continued from git working tree state. |
-| 2026-05-18 | Grep tool rejected unexpected `n` parameter | 1 | Retry with the correct Grep schema. |
-
-## 5-Question Reboot Check
-| Question | Answer |
-|----------|--------|
-| Where am I? | Phase 2: reviewing uncommitted changes. |
-| Where am I going? | Complete missing implementation and verify locally. |
-| What's the goal? | Resume and finish the previous website work using uncommitted changes as source of truth. |
-| What have I learned? | See `findings.md`. |
-| What have I done? | Restored available context and created planning files. |
+| 2026-05-20 | Local Node fetch to OpenRouter failed with `ECONNRESET` before TLS | 1 | Retried via PowerShell with a User-Agent, which succeeded; added User-Agent to sync script. |
+| 2026-05-20 | Edit refused files that had not yet been read | 1 | Read the target file snippets, then applied exact replacements. |

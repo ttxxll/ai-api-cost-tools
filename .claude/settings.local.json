@@ -5,7 +5,16 @@
       "PowerShell(Get-NetTCPConnection *)",
       "Skill(planning-with-files)",
       "PowerShell(Get-Command *)",
-      "PowerShell($paths = '/', '/zh', '/deepseek-api-cost-calculator', '/zh/deepseek-api-cost-calculator', '/ai-model-price-comparison', '/api/pricing', '/sitemap.xml', '/robots.txt'; foreach \\($path in $paths\\) { try { $response = Invoke-WebRequest -Uri \"http://localhost:3000$path\" -UseBasicParsing -TimeoutSec 20; \"$path $\\($response.StatusCode\\) $\\($response.Content.Length\\)\" } catch { \"$path ERROR $\\($_.Exception.Message\\)\" } })"
+      "PowerShell($paths = '/', '/zh', '/deepseek-api-cost-calculator', '/zh/deepseek-api-cost-calculator', '/ai-model-price-comparison', '/api/pricing', '/sitemap.xml', '/robots.txt'; foreach \\($path in $paths\\) { try { $response = Invoke-WebRequest -Uri \"http://localhost:3000$path\" -UseBasicParsing -TimeoutSec 20; \"$path $\\($response.StatusCode\\) $\\($response.Content.Length\\)\" } catch { \"$path ERROR $\\($_.Exception.Message\\)\" } })",
+      "PowerShell(Out-Null *)",
+      "WebFetch(domain:raw.githubusercontent.com)",
+      "PowerShell(node -e \"const url='https://raw.githubusercontent.com/BerriAI/litellm/main/model_prices_and_context_window.json'; fetch\\(url\\).then\\(r=>r.json\\(\\)\\).then\\(data=>{const terms=['claude-opus-4','claude-sonnet-4','claude-haiku-4','gpt-4o','gpt-5','o3','gemini-2.5','gemini-3','deepseek','mistral-large','mistral-medium','mistral-small','grok']; for \\(const term of terms\\) { const keys=Object.keys\\(data\\).filter\\(k=>k.toLowerCase\\(\\).includes\\(term\\)\\).slice\\(0,20\\); console.log\\('\\\\n## '+term\\); console.log\\(keys.join\\('\\\\n'\\)\\); }}\\).catch\\(e=>{console.error\\(e\\); process.exit\\(1\\);}\\)\")",
+      "PowerShell(New-Item *)",
+      "PowerShell(npm install *)",
+      "PowerShell($routes = @\\('/', '/api/pricing', '/deepseek-api-cost-calculator', '/ai-model-price-comparison', '/zh', '/zh/deepseek-api-cost-calculator'\\); foreach \\($route in $routes\\) { $url = \"http://localhost:3000$route\"; try { $response = Invoke-WebRequest -Uri $url -UseBasicParsing -TimeoutSec 20; Write-Output \"$route $\\($response.StatusCode\\)\" } catch { Write-Output \"$route ERROR $\\($_.Exception.Message\\)\"; exit 1 } })",
+      "WebFetch(domain:openrouter.ai)",
+      "PowerShell(Write-Error *)",
+      "PowerShell($routes = @\\('/', '/zh', '/api/pricing', '/deepseek-api-cost-calculator', '/ai-model-price-comparison'\\); foreach \\($route in $routes\\) { $r = Invoke-WebRequest -Uri \"http://localhost:3000$route\" -UseBasicParsing -TimeoutSec 10; \"$route $\\($r.StatusCode\\)\"; if \\($route -eq '/api/pricing'\\) { $json = $r.Content | ConvertFrom-Json; \"source=$\\($json.source\\) count=$\\($json.count\\) hasDeepSeekV4Flash=$\\([bool]\\($json.models | Where-Object { $_.id -eq 'deepseek-v4-flash' }\\)\\)\" } })"
     ]
   }
 }

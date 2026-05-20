@@ -1,67 +1,50 @@
-# Task Plan: LiteLLM-backed model pricing refactor
+# Task Plan: OpenRouter-backed model pricing sync
 
 ## Goal
-Refactor the Next.js project's model pricing data flow for a static no-backend architecture: strong typed pricing config, deterministic LiteLLM sync script, frontend wiring to the new source, and a weekly GitHub Actions updater.
+Replace the deprecated LiteLLM pricing source with OpenRouter's official Models endpoint so `modelsPricing.ts` is regenerated from OpenRouter pricing fields, including prompt/completion and cache read/write prices normalized to USD per 1M tokens.
 
 ## Current Phase
 Complete
 
 ## Phases
 
-### Phase 1: Explore Current Data Flow
-- [x] Inspect existing pricing data files and imports
-- [x] Inspect calculators/pages/API routes that consume model pricing
-- [x] Inspect scripts/package/CI setup for automation patterns
+### Phase 1: Inspect Current Pricing Pipeline
+- [x] Locate the requested `scripts/update-prices.mjs` or equivalent current sync script
+- [x] Inspect `src/lib/data/modelsPricing.ts` type/schema and existing target model IDs
+- [x] Identify package scripts/workflows that invoke pricing generation
 - **Status:** complete
 
-### Phase 2: Implement Typed Pricing Source
-- [x] Create or refactor `modelsPricing.ts` with `ModelPricing` and `MODELS_DATA`
-- [x] Preserve model coverage needed by existing UI
-- [x] Keep data suitable for future cache and mixed-route billing calculations
+### Phase 2: Implement OpenRouter Models Sync
+- [x] Fetch `https://openrouter.ai/api/v1/models`
+- [x] Traverse OpenRouter results and match core tracked models
+- [x] Convert `pricing.prompt` and `pricing.completion` to per-million prices
+- [x] Read `pricing.input_cache_write` and `pricing.input_cache_read` and convert to per-million prices
+- [x] Infer cache prices via provider discount ratios only when OpenRouter cache fields are zero and the model is cache-capable
+- [x] Emit deterministic, strongly typed `modelsPricing.ts`
 - **Status:** complete
 
-### Phase 3: Add LiteLLM Sync Automation
-- [x] Write a Node.js script that fetches LiteLLM model cost JSON
-- [x] Normalize provider, context window, input/output, and cache pricing fields
-- [x] Produce deterministic TypeScript output for the static config
+### Phase 3: Regenerate Data
+- [x] Run the pricing sync script
+- [x] Inspect generated pricing for representative target models
+- [x] Ensure generated output remains deterministic and compatible with current app code
 - **Status:** complete
 
-### Phase 4: Wire UI to New Data Source
-- [x] Replace old pricing imports/calls with the typed static source
-- [x] Preserve existing UI style and behavior
-- [x] Remove or adapt obsolete runtime data dependencies if needed
+### Phase 4: Verification
+- [x] Run lint/build or targeted checks practical for the change
+- [x] Record any failures and resolutions
 - **Status:** complete
-
-### Phase 5: Add Scheduled GitHub Action
-- [x] Create a weekly workflow to run the sync script
-- [x] Commit changes only when generated pricing data changes
-- [x] Avoid adding deploy logic unless the repo already requires it
-- **Status:** complete
-
-### Phase 6: Verification
-- [x] Run sync script and inspect generated output
-- [x] Run lint/build checks
-- [x] Verify key routes locally when possible
-- **Status:** complete
-
-## Key Questions
-1. Where is pricing data currently stored and consumed?
-2. Which model IDs must remain available for existing pages and calculators?
-3. What LiteLLM JSON fields map to context window and prompt caching prices?
-4. Does the repo already have a CI/deploy workflow pattern to preserve?
 
 ## Decisions Made
 | Decision | Rationale |
 |----------|-----------|
-| Use planning files for this refactor | The task spans data modeling, automation, frontend wiring, CI, and verification. |
-| Keep the architecture static/no-backend | User explicitly requires a pure frontend static architecture. |
+| Keep planning files for this migration | The task requires exploration, implementation, generation, and verification across multiple files. |
 | Do not commit changes unless asked | Project/user instructions require explicit commit authorization. |
 
 ## Errors Encountered
 | Error | Attempt | Resolution |
 |-------|---------|------------|
-| Prior planning files described a completed older task | 1 | Replaced plan content with the new LiteLLM pricing refactor scope. |
+| Existing planning files described a completed LiteLLM task | 1 | Replaced plan content with the new OpenRouter migration scope. |
 
 ## Notes
 - Planning files are intentionally in the project root per the planning-with-files skill.
-- Follow `AGENTS.md`: read relevant Next.js docs in `node_modules/next/dist/docs/` before changing Next.js-specific code.
+- Follow `AGENTS.md`: read relevant Next.js docs before changing Next.js-specific code. This task is script/data focused, so no Next.js API behavior changes are planned.
