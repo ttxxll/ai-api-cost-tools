@@ -75,8 +75,21 @@
 | Build | `npm run build` | Next.js production build succeeds | Build passed; 34 app routes generated | pass |
 | Local route checks | HTTP GET selected routes on localhost:3000 | 200 responses and OpenRouter pricing API metadata | All selected routes returned 200; pricing API source `openrouter-static` | pass |
 
+### Follow-up: Missing OpenRouter model IDs
+- **Status:** complete
+- Actions taken:
+  - Reproduced the reported sync failure source by checking OpenRouter ID availability.
+  - Marked unavailable future models `gpt-5.5-flash` and `gemini-3.1-flash` as optional.
+  - Corrected `gpt-5.5` to map to `openai/gpt-5.5` instead of `openai/gpt-5`.
+  - Replaced unavailable Grok aliases with current OpenRouter IDs `x-ai/grok-4.3` and `x-ai/grok-4.20`.
+  - Fixed a missing comma syntax error introduced during the edit.
+  - Re-ran `npm run sync:pricing`; synced 20 current OpenRouter records successfully.
+  - Re-ran `npm run lint`; passed.
+
 ## Error Log
 | Timestamp | Error | Attempt | Resolution |
 |-----------|-------|---------|------------|
 | 2026-05-20 | Local Node fetch to OpenRouter failed with `ECONNRESET` before TLS | 1 | Retried via PowerShell with a User-Agent, which succeeded; added User-Agent to sync script. |
 | 2026-05-20 | Edit refused files that had not yet been read | 1 | Read the target file snippets, then applied exact replacements. |
+| 2026-05-20 | GitHub Actions sync failed because `openai/gpt-5.5-flash` was not present in OpenRouter | 1 | Marked unavailable future models optional and corrected current model mappings. |
+| 2026-05-20 | `update-prices.mjs` had a missing comma after editing `gemini-3.1-flash` | 1 | Added the comma and re-ran sync successfully. |

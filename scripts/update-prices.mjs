@@ -20,8 +20,8 @@ const trackedModels = [
   // OpenAI GPT-5 & Reasoning Family (最新旗舰与推理)
   // ==========================================
   { id: 'gpt-5.5-pro', openRouterIds: ['openai/gpt-5.5-pro'], provider: 'OpenAI', displayName: 'GPT-5.5 Pro' },
-  { id: 'gpt-5.5', openRouterIds: ['openai/gpt-5'], provider: 'OpenAI', displayName: 'GPT-5.5 (Base)' },
-  { id: 'gpt-5.5-flash', openRouterIds: ['openai/gpt-5.5-flash'], provider: 'OpenAI', displayName: 'GPT-5.5 Flash' },
+  { id: 'gpt-5.5', openRouterIds: ['openai/gpt-5.5'], provider: 'OpenAI', displayName: 'GPT-5.5' },
+  { id: 'gpt-5.5-flash', openRouterIds: ['openai/gpt-5.5-flash'], provider: 'OpenAI', displayName: 'GPT-5.5 Flash', optional: true },
   { id: 'gpt-5.4-pro', openRouterIds: ['openai/gpt-5.4-pro'], provider: 'OpenAI', displayName: 'GPT-5.4 Pro' },
   { id: 'gpt-5.4', openRouterIds: ['openai/gpt-5.4'], provider: 'OpenAI', displayName: 'GPT-5.4' },
   { id: 'gpt-5.4-mini', openRouterIds: ['openai/gpt-5.4-mini'], provider: 'OpenAI', displayName: 'GPT-5.4 Mini' },
@@ -32,7 +32,7 @@ const trackedModels = [
   // Google Gemini 3.1 Family (全系商用标配)
   // ==========================================
   { id: 'gemini-3.1-pro', openRouterIds: ['google/gemini-3.1-pro', 'google/gemini-3.1-pro-preview'], provider: 'Google', displayName: 'Gemini 3.1 Pro' },
-  { id: 'gemini-3.1-flash', openRouterIds: ['google/gemini-3.1-flash'], provider: 'Google', displayName: 'Gemini 3.1 Flash' },
+  { id: 'gemini-3.1-flash', openRouterIds: ['google/gemini-3.1-flash'], provider: 'Google', displayName: 'Gemini 3.1 Flash', optional: true },
   { id: 'gemini-3.1-flash-lite', openRouterIds: ['google/gemini-3.1-flash-lite', 'google/gemini-3.1-flash-lite-preview'], provider: 'Google', displayName: 'Gemini 3.1 Flash Lite' },
 
   // ==========================================
@@ -47,8 +47,8 @@ const trackedModels = [
   { id: 'mistral-large-latest', openRouterIds: ['mistralai/mistral-large-2512', 'mistralai/mistral-large'], provider: 'Mistral', displayName: 'Mistral Large Latest' },
   { id: 'mistral-medium-2505', openRouterIds: ['mistralai/mistral-medium-3', 'mistralai/mistral-medium-3.1'], provider: 'Mistral', displayName: 'Mistral Medium 3' },
   { id: 'mistral-small-latest', openRouterIds: ['mistralai/mistral-small-2603', 'mistralai/mistral-small-3.2-24b-instruct'], provider: 'Mistral', displayName: 'Mistral Small Latest' },
-  { id: 'grok-4.5', openRouterIds: ['x-ai/grok-4.5', 'x-ai/grok-4'], provider: 'xAI', displayName: 'Grok 4.5' },
-  { id: 'grok-4-mini', openRouterIds: ['x-ai/grok-4-mini', 'x-ai/grok-4.5-mini'], provider: 'xAI', displayName: 'Grok 4 Mini' }
+  { id: 'grok-4.3', openRouterIds: ['x-ai/grok-4.3'], provider: 'xAI', displayName: 'Grok 4.3' },
+  { id: 'grok-4.20', openRouterIds: ['x-ai/grok-4.20'], provider: 'xAI', displayName: 'Grok 4.20' }
 ];
 
 const cachePricingFallbacks = {
