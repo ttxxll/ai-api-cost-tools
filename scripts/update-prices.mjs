@@ -8,32 +8,47 @@ const projectRoot = resolve(dirname(fileURLToPath(import.meta.url)), '..');
 const outputFile = resolve(projectRoot, 'src/lib/data/modelsPricing.ts');
 
 const trackedModels = [
+  // ==========================================
+  // Anthropic Claude 4 Family (2026 当打主力)
+  // ==========================================
   { id: 'claude-opus-4.7', openRouterIds: ['anthropic/claude-opus-4.7'], provider: 'Anthropic', displayName: 'Claude Opus 4.7' },
   { id: 'claude-sonnet-4.6', openRouterIds: ['anthropic/claude-sonnet-4.6'], provider: 'Anthropic', displayName: 'Claude Sonnet 4.6' },
   { id: 'claude-sonnet-4.5', openRouterIds: ['anthropic/claude-sonnet-4.5'], provider: 'Anthropic', displayName: 'Claude Sonnet 4.5' },
   { id: 'claude-haiku-4.5', openRouterIds: ['anthropic/claude-haiku-4.5'], provider: 'Anthropic', displayName: 'Claude Haiku 4.5' },
-  { id: 'claude-3-5-sonnet', openRouterIds: ['anthropic/claude-3.5-sonnet', 'anthropic/claude-3-5-sonnet'], provider: 'Anthropic', displayName: 'Claude 3.5 Sonnet', optional: true },
+
+  // ==========================================
+  // OpenAI GPT-5 & Reasoning Family (最新旗舰与推理)
+  // ==========================================
   { id: 'gpt-5.5-pro', openRouterIds: ['openai/gpt-5.5-pro'], provider: 'OpenAI', displayName: 'GPT-5.5 Pro' },
-  { id: 'gpt-5.5', openRouterIds: ['openai/gpt-5.5'], provider: 'OpenAI', displayName: 'GPT-5.5' },
-  { id: 'gpt-5', openRouterIds: ['openai/gpt-5'], provider: 'OpenAI', displayName: 'GPT-5', optional: true },
-  { id: 'gpt-4o', openRouterIds: ['openai/gpt-4o', 'openai/gpt-4o-2024-11-20'], provider: 'OpenAI', displayName: 'GPT-4o' },
-  { id: 'gpt-4o-mini', openRouterIds: ['openai/gpt-4o-mini'], provider: 'OpenAI', displayName: 'GPT-4o mini' },
+  { id: 'gpt-5.5', openRouterIds: ['openai/gpt-5'], provider: 'OpenAI', displayName: 'GPT-5.5 (Base)' },
+  { id: 'gpt-5.5-flash', openRouterIds: ['openai/gpt-5.5-flash'], provider: 'OpenAI', displayName: 'GPT-5.5 Flash' },
+  { id: 'gpt-5.4-pro', openRouterIds: ['openai/gpt-5.4-pro'], provider: 'OpenAI', displayName: 'GPT-5.4 Pro' },
+  { id: 'gpt-5.4', openRouterIds: ['openai/gpt-5.4'], provider: 'OpenAI', displayName: 'GPT-5.4' },
+  { id: 'gpt-5.4-mini', openRouterIds: ['openai/gpt-5.4-mini'], provider: 'OpenAI', displayName: 'GPT-5.4 Mini' },
   { id: 'o3', openRouterIds: ['openai/o3'], provider: 'OpenAI', displayName: 'o3' },
   { id: 'o3-mini', openRouterIds: ['openai/o3-mini'], provider: 'OpenAI', displayName: 'o3-mini' },
-  { id: 'gemini-2.5-pro', openRouterIds: ['google/gemini-2.5-pro'], provider: 'Google', displayName: 'Gemini 2.5 Pro' },
-  { id: 'gemini-2.5-flash', openRouterIds: ['google/gemini-2.5-flash'], provider: 'Google', displayName: 'Gemini 2.5 Flash' },
-  { id: 'gemini-2.5-flash-lite', openRouterIds: ['google/gemini-2.5-flash-lite'], provider: 'Google', displayName: 'Gemini 2.5 Flash Lite' },
-  { id: 'deepseek-v4-pro', openRouterIds: ['deepseek/deepseek-v4-pro'], provider: 'DeepSeek', displayName: 'DeepSeek V4 Pro' },
-  { id: 'deepseek-v4-flash', openRouterIds: ['deepseek/deepseek-v4-flash'], provider: 'DeepSeek', displayName: 'DeepSeek V4 Flash' },
-  { id: 'deepseek-chat', openRouterIds: ['deepseek/deepseek-chat'], provider: 'DeepSeek', displayName: 'DeepSeek Chat', optional: true },
-  { id: 'deepseek-reasoner', openRouterIds: ['deepseek/deepseek-reasoner'], provider: 'DeepSeek', displayName: 'DeepSeek Reasoner', optional: true },
+
+  // ==========================================
+  // Google Gemini 3.1 Family (全系商用标配)
+  // ==========================================
+  { id: 'gemini-3.1-pro', openRouterIds: ['google/gemini-3.1-pro', 'google/gemini-3.1-pro-preview'], provider: 'Google', displayName: 'Gemini 3.1 Pro' },
+  { id: 'gemini-3.1-flash', openRouterIds: ['google/gemini-3.1-flash'], provider: 'Google', displayName: 'Gemini 3.1 Flash' },
+  { id: 'gemini-3.1-flash-lite', openRouterIds: ['google/gemini-3.1-flash-lite', 'google/gemini-3.1-flash-lite-preview'], provider: 'Google', displayName: 'Gemini 3.1 Flash Lite' },
+
+  // ==========================================
+  // DeepSeek V4 Family (降维打击的极客首选)
+  // ==========================================
+  { id: 'deepseek-v4-pro', openRouterIds: ['deepseek/deepseek-v4-pro', 'deepseek/deepseek-v4-pro:nitro'], provider: 'DeepSeek', displayName: 'DeepSeek V4 Pro' },
+  { id: 'deepseek-v4-flash', openRouterIds: ['deepseek/deepseek-v4-flash', 'deepseek/deepseek-v4-flash:nitro', 'deepseek/deepseek-v4-flash:free'], provider: 'DeepSeek', displayName: 'DeepSeek V4 Flash' },
+
+  // ==========================================
+  // Mistral & xAI Grok 4 Family 
+  // ==========================================
   { id: 'mistral-large-latest', openRouterIds: ['mistralai/mistral-large-2512', 'mistralai/mistral-large'], provider: 'Mistral', displayName: 'Mistral Large Latest' },
   { id: 'mistral-medium-2505', openRouterIds: ['mistralai/mistral-medium-3', 'mistralai/mistral-medium-3.1'], provider: 'Mistral', displayName: 'Mistral Medium 3' },
   { id: 'mistral-small-latest', openRouterIds: ['mistralai/mistral-small-2603', 'mistralai/mistral-small-3.2-24b-instruct'], provider: 'Mistral', displayName: 'Mistral Small Latest' },
-  { id: 'grok-4.3', openRouterIds: ['x-ai/grok-4.3'], provider: 'xAI', displayName: 'Grok 4.3' },
-  { id: 'grok-4.20', openRouterIds: ['x-ai/grok-4.20'], provider: 'xAI', displayName: 'Grok 4.20' },
-  { id: 'grok-3', openRouterIds: ['x-ai/grok-3'], provider: 'xAI', displayName: 'Grok 3', optional: true },
-  { id: 'grok-3-mini', openRouterIds: ['x-ai/grok-3-mini'], provider: 'xAI', displayName: 'Grok 3 Mini', optional: true },
+  { id: 'grok-4.5', openRouterIds: ['x-ai/grok-4.5', 'x-ai/grok-4'], provider: 'xAI', displayName: 'Grok 4.5' },
+  { id: 'grok-4-mini', openRouterIds: ['x-ai/grok-4-mini', 'x-ai/grok-4.5-mini'], provider: 'xAI', displayName: 'Grok 4 Mini' }
 ];
 
 const cachePricingFallbacks = {
