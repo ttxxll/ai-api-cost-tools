@@ -1,8 +1,9 @@
 'use client';
 
-import { useEffect, useRef, useState } from 'react';
+import { useRef, useState } from 'react';
 import CalculatorField from './CalculatorField';
 import ModelSelector, { DeepSeekPromoBadge } from './ModelSelector';
+import SmartAlternatives from './SmartAlternatives';
 import {
   calculateApiCost,
   formatCost,
@@ -36,6 +37,7 @@ export default function ApiCostCalculator({
   const [cacheHitRate, setCacheHitRate] = useState(0);
   const [promptCachingEnabled, setPromptCachingEnabled] = useState(filterProvider === 'deepseek');
   const [cacheTtlHours, setCacheTtlHours] = useState(0);
+  const [batchModeEnabled, setBatchModeEnabled] = useState(false);
   const [internalCustomModel, setInternalCustomModel] = useState<CustomModelData | null>(customModel || null);
 
   const activeCustomModel = internalCustomModel;
@@ -49,6 +51,7 @@ export default function ApiCostCalculator({
     cacheHitRate,
     promptCachingEnabled,
     cacheTtlHours,
+    batchModeEnabled,
     customModel: activeCustomModel || undefined,
   });
 
@@ -71,16 +74,24 @@ export default function ApiCostCalculator({
 
   return (
     <div className="grid grid-cols-1 lg:grid-cols-5 gap-5">
-      <div className="lg:col-span-2 glass-card p-5 transition-all duration-300 hover:border-white/[0.12]">
-        <div className="flex items-center gap-2 mb-4">
-          <div className="w-7 h-7 rounded-lg bg-purple-500/10 border border-purple-500/20 flex items-center justify-center text-purple-400 text-xs">
-            ⚙️
+      <div className="lg:col-span-2">
+        <div className="rounded-2xl border border-gray-700/50 bg-gray-800/50 p-8 shadow-2xl shadow-gray-950/20 backdrop-blur-xl transition-all duration-300 hover:border-white/[0.12]">
+          <div className="mb-8">
+            <div className="flex items-center gap-3">
+              <div className="w-9 h-9 rounded-xl bg-purple-500/10 border border-purple-500/20 flex items-center justify-center text-purple-400 text-sm shadow-[0_0_24px_rgba(124,58,237,0.12)]">
+                🎮
+              </div>
+              <div>
+                <h3 className="text-base font-semibold text-white">
+                  {isZh ? '输入会话参数' : 'Input Session Parameters'}
+                </h3>
+                <p className="mt-0.5 text-xs text-gray-500">
+                  {isZh ? '配置模型、Token 用量和高级计费策略' : 'Configure model, token usage, and advanced billing controls'}
+                </p>
+              </div>
+            </div>
           </div>
-          <h3 className="text-sm font-semibold text-white">
-            {isZh ? '输入参数' : 'Parameters'}
-          </h3>
-        </div>
-        <div className="space-y-3">
+          <div className="space-y-6">
           <ModelSelector
             value={activeCustomModel ? 'custom' : modelId}
             onChange={(id) => {
@@ -89,6 +100,7 @@ export default function ApiCostCalculator({
                 setPromptCachingEnabled(false);
                 setCacheHitRate(0);
                 setCacheTtlHours(0);
+                setBatchModeEnabled(false);
               } else {
                 setModelId(id);
                 setInternalCustomModel(null);
@@ -132,45 +144,75 @@ export default function ApiCostCalculator({
               icon="📅"
             />
           </div>
-          {supportsCaching && selectedModel && (
-            <PromptCachingSwitch
-              enabled={promptCachingEnabled}
-              onChange={(enabled) => {
-                setPromptCachingEnabled(enabled);
-                if (!enabled) {
-                  setCacheHitRate(0);
-                  setCacheTtlHours(0);
-                }
-              }}
-              showAnthropicTooltip={selectedModel.provider === 'Anthropic'}
-              isZh={isZh}
-            />
-          )}
-          {showCacheHitRate && (
-            <CalculatorField
-              label={isZh ? '缓存命中率' : 'Cache Hit Rate'}
-              value={cacheHitRate}
-              onChange={setCacheHitRate}
-              type="percentage"
-              min={0}
-              max={100}
-              suffix="%"
-              icon="💾"
-              helpText={isZh ? '根据当前模型缓存读取价格估算命中折扣' : 'Estimated with the selected model cache-read price'}
-            />
-          )}
-          {showGoogleCacheTtl && (
-            <CalculatorField
-              label="Cache TTL / 挂载时长"
-              value={cacheTtlHours}
-              onChange={setCacheTtlHours}
-              min={0}
-              max={24}
-              step={1}
-              suffix="hours"
-              icon="⏱️"
-              helpText={isZh ? 'Google 缓存存储按每百万 Token 每小时计费' : 'Google cache storage is billed per 1M tokens per hour'}
-            />
+          {(supportsCaching || !activeCustomModel) && (
+            <div className="space-y-4 rounded-xl border border-gray-700/50 bg-gray-900/30 p-5">
+              <div className="flex items-center justify-between gap-3">
+                <div>
+                  <h4 className="text-sm font-semibold text-gray-200">
+                    {isZh ? '高级计费策略' : 'Advanced Billing Strategy'}
+                  </h4>
+                  <p className="mt-0.5 text-xs text-gray-600">
+                    {isZh ? '缓存、批处理与供应商专属折扣' : 'Caching, batch mode, and provider-specific discounts'}
+                  </p>
+                </div>
+              </div>
+              {supportsCaching && selectedModel && (
+                <PromptCachingSwitch
+                  enabled={promptCachingEnabled}
+                  disabled={false}
+                  onChange={(enabled) => {
+                    setPromptCachingEnabled(enabled);
+                    if (!enabled) {
+                      setCacheHitRate(0);
+                      setCacheTtlHours(0);
+                    }
+                  }}
+                  showAnthropicTooltip={selectedModel.provider === 'Anthropic'}
+                  isZh={isZh}
+                />
+              )}
+              {showCacheHitRate && (
+                <CalculatorField
+                  label={isZh ? '缓存命中率' : 'Cache Hit Rate'}
+                  value={cacheHitRate}
+                  onChange={setCacheHitRate}
+                  type="percentage"
+                  min={0}
+                  max={100}
+                  suffix="%"
+                  icon="💾"
+                  helpText={isZh ? '根据当前模型缓存读取价格估算命中折扣' : 'Estimated with the selected model cache-read price'}
+                />
+              )}
+              {!activeCustomModel && (
+                <BatchModeSwitch
+                  enabled={batchModeEnabled}
+                  onChange={setBatchModeEnabled}
+                  isZh={isZh}
+                  unsupported={Boolean(batchModeEnabled && selectedModel && !selectedModel.batchPricing.isSupported)}
+                  insights={result ? (
+                    <CostOptimizationInsightsTooltip
+                      result={result}
+                      promptCachingEnabled={promptCachingEnabled}
+                      isZh={isZh}
+                    />
+                  ) : null}
+                />
+              )}
+              {showGoogleCacheTtl && (
+                <CalculatorField
+                  label="Cache TTL / 挂载时长"
+                  value={cacheTtlHours}
+                  onChange={setCacheTtlHours}
+                  min={0}
+                  max={24}
+                  step={1}
+                  suffix="hours"
+                  icon="⏱️"
+                  helpText={isZh ? 'Google 缓存存储按每百万 Token 每小时计费' : 'Google cache storage is billed per 1M tokens per hour'}
+                />
+              )}
+            </div>
           )}
           <button
             onClick={scrollToResult}
@@ -178,6 +220,7 @@ export default function ApiCostCalculator({
           >
             {isZh ? '查看计算结果 ↓' : 'View Results ↓'}
           </button>
+        </div>
         </div>
       </div>
 
@@ -235,6 +278,12 @@ export default function ApiCostCalculator({
                 {result.cacheStorageCostPerCall > 0 && (
                   <CostLine label="Storage Cost (挂载费)" value={`$${formatCost(result.cacheStorageCostPerCall)}`} />
                 )}
+                {result.batchModeEnabled && (
+                  <CostLine
+                    label={isZh ? 'Batch 模式' : 'Batch Mode'}
+                    value={result.usedBatchPricing ? (isZh ? '已启用' : 'Enabled') : (isZh ? '不支持，标准价' : 'Unsupported, standard')}
+                  />
+                )}
                 <CostLine label={isZh ? '每日输入' : 'Daily In'} value={formatTokens(result.inputTokensPerDay)} />
                 <CostLine label={isZh ? '每日输出' : 'Daily Out'} value={formatTokens(result.outputTokensPerDay)} />
               </div>
@@ -242,7 +291,20 @@ export default function ApiCostCalculator({
           </div>
         )}
 
-        {result && <CostOptimizationInsights result={result} promptCachingEnabled={promptCachingEnabled} isZh={isZh} />}
+        {result && (
+          <SmartAlternatives
+            isZh={isZh}
+            currentModelId={activeCustomModel ? undefined : result.model.id}
+            inputTokens={inputTokens}
+            outputTokens={outputTokens}
+            requestsPerCall={requestsPerCall}
+            callsPerDay={callsPerDay}
+            cacheHitRate={cacheHitRate}
+            promptCachingEnabled={promptCachingEnabled}
+            cacheTtlHours={cacheTtlHours}
+            batchModeEnabled={batchModeEnabled}
+          />
+        )}
 
         <div className="glass-card p-5 transition-all duration-300 hover:border-white/[0.12]">
           <h4 className="text-sm font-semibold text-white mb-3">
@@ -283,19 +345,68 @@ export default function ApiCostCalculator({
   );
 }
 
+function BatchModeSwitch({
+  enabled,
+  onChange,
+  isZh,
+  unsupported,
+  insights,
+}: {
+  enabled: boolean;
+  onChange: (enabled: boolean) => void;
+  isZh: boolean;
+  unsupported: boolean;
+  insights?: React.ReactNode;
+}) {
+  return (
+    <div className="rounded-xl border border-white/[0.08] bg-white/[0.03] px-3 py-3">
+      <div className="flex items-center justify-between gap-3">
+        <div className="flex items-center gap-2">
+          <span className="text-sm opacity-60">📦</span>
+          <span className="text-sm font-medium text-gray-300">{isZh ? 'Batch 模式' : 'Batch Mode'}</span>
+          <span className="text-[10px] text-gray-600">{isZh ? '异步降本' : 'async savings'}</span>
+          {insights}
+        </div>
+        <button
+          type="button"
+          role="switch"
+          aria-checked={enabled}
+          onClick={() => onChange(!enabled)}
+          className={`relative h-6 w-11 rounded-full border transition-colors ${
+            enabled ? 'border-emerald-400/50 bg-emerald-500/40' : 'border-white/[0.12] bg-gray-800/80'
+          }`}
+        >
+          <span
+            className={`absolute top-0.5 h-5 w-5 rounded-full bg-white shadow transition-transform ${
+              enabled ? 'translate-x-5' : 'translate-x-0.5'
+            }`}
+          />
+        </button>
+      </div>
+      {unsupported && (
+        <p className="mt-2 text-xs text-gray-500">
+          {isZh ? '当前模型不支持 Batch，主账单将按标准价格计算。' : 'Current model does not support Batch; the main bill uses standard pricing.'}
+        </p>
+      )}
+    </div>
+  );
+}
+
 function PromptCachingSwitch({
   enabled,
+  disabled,
   onChange,
   showAnthropicTooltip,
   isZh,
 }: {
   enabled: boolean;
+  disabled: boolean;
   onChange: (enabled: boolean) => void;
   showAnthropicTooltip: boolean;
   isZh: boolean;
 }) {
   return (
-    <div className="rounded-xl border border-white/[0.08] bg-white/[0.03] px-3 py-3">
+    <div className={`rounded-xl border border-white/[0.08] bg-white/[0.03] px-3 py-3 ${disabled ? 'opacity-60' : ''}`}>
       <div className="flex items-center justify-between gap-3">
         <div className="flex items-center gap-2">
           <span className="text-sm opacity-60">💾</span>
@@ -305,15 +416,16 @@ function PromptCachingSwitch({
         <button
           type="button"
           role="switch"
-          aria-checked={enabled}
+          aria-checked={enabled && !disabled}
+          disabled={disabled}
           onClick={() => onChange(!enabled)}
           className={`relative h-6 w-11 rounded-full border transition-colors ${
-            enabled ? 'border-purple-400/50 bg-purple-500/40' : 'border-white/[0.12] bg-gray-800/80'
-          }`}
+            enabled && !disabled ? 'border-purple-400/50 bg-purple-500/40' : 'border-white/[0.12] bg-gray-800/80'
+          } ${disabled ? 'cursor-not-allowed' : ''}`}
         >
           <span
             className={`absolute top-0.5 h-5 w-5 rounded-full bg-white shadow transition-transform ${
-              enabled ? 'translate-x-5' : 'translate-x-0.5'
+              enabled && !disabled ? 'translate-x-5' : 'translate-x-0.5'
             }`}
           />
         </button>
@@ -324,36 +436,28 @@ function PromptCachingSwitch({
 
 function AnthropicCacheTooltip({ isZh }: { isZh: boolean }) {
   const [visible, setVisible] = useState(false);
-  const hideTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
-
-  useEffect(() => {
-    return () => {
-      if (hideTimerRef.current) clearTimeout(hideTimerRef.current);
-    };
-  }, []);
-
-  function flashTooltip() {
-    if (hideTimerRef.current) clearTimeout(hideTimerRef.current);
-    setVisible(true);
-    hideTimerRef.current = setTimeout(() => {
-      setVisible(false);
-      hideTimerRef.current = null;
-    }, 1000);
-  }
 
   return (
-    <span className="relative inline-flex" onMouseEnter={flashTooltip} onFocus={flashTooltip}>
+    <span
+      className="relative inline-flex"
+      onMouseEnter={() => setVisible(true)}
+      onMouseLeave={() => setVisible(false)}
+      onFocus={() => setVisible(true)}
+      onBlur={() => setVisible(false)}
+    >
       <span className="flex h-6 w-6 cursor-help items-center justify-center rounded-full border border-cyan-400/40 bg-cyan-400/10 text-xs font-bold text-cyan-300 shadow-[0_0_18px_rgba(34,211,238,0.18)] transition-colors hover:border-cyan-300 hover:bg-cyan-400/20 hover:text-white">
         i
       </span>
-      <span className={`pointer-events-none absolute left-1/2 top-8 z-50 w-80 -translate-x-1/2 rounded-xl border border-cyan-400/30 bg-[#0F172A]/95 p-4 text-xs leading-relaxed text-gray-100 shadow-2xl shadow-cyan-950/50 backdrop-blur-xl transition-all duration-150 ${visible ? 'translate-y-0 opacity-100' : '-translate-y-1 opacity-0'}`}>
-        <span className="mb-1 block text-sm font-semibold text-cyan-200">
-          {isZh ? '缓存写入计费说明' : 'Cache Write Billing Notes'}
+      {visible && (
+        <span className="pointer-events-none absolute left-1/2 top-8 z-50 w-80 -translate-x-1/2 rounded-xl border border-cyan-400/30 bg-[#0F172A]/95 p-4 text-xs leading-relaxed text-gray-100 opacity-100 shadow-2xl shadow-cyan-950/50 backdrop-blur-xl animate-[tooltip-enter_150ms_ease-out_forwards]">
+          <span className="mb-1 block text-sm font-semibold text-cyan-200">
+            {isZh ? '缓存写入计费说明' : 'Cache Write Billing Notes'}
+          </span>
+          {isZh
+            ? '默认按照 5 分钟 (5m) 短期驻留标准计算写入费。Anthropic 官方提供 1 小时长期锁定时长，但写入成本将翻倍。短频次对话建议保持默认，长时离线任务需注意成本飙升。'
+            : 'By default, this calculator uses the 5-minute (5m) short-lived cache write rate. Anthropic also offers a 1-hour long-lived cache duration, but write costs are doubled. Keep the default for short, frequent conversations; long offline jobs should account for sharply higher write costs.'}
         </span>
-        {isZh
-          ? '默认按照 5 分钟 (5m) 短期驻留标准计算写入费。Anthropic 官方提供 1 小时长期锁定时长，但写入成本将翻倍。短频次对话建议保持默认，长时离线任务需注意成本飙升。'
-          : 'By default, this calculator uses the 5-minute (5m) short-lived cache write rate. Anthropic also offers a 1-hour long-lived cache duration, but write costs are doubled. Keep the default for short, frequent conversations; long offline jobs should account for sharply higher write costs.'}
-      </span>
+      )}
     </span>
   );
 }
@@ -380,7 +484,7 @@ function CostLine({ label, value }: { label: string; value: string }) {
   );
 }
 
-function CostOptimizationInsights({
+function CostOptimizationInsightsTooltip({
   result,
   promptCachingEnabled,
   isZh,
@@ -389,51 +493,69 @@ function CostOptimizationInsights({
   promptCachingEnabled: boolean;
   isZh: boolean;
 }) {
+  const [visible, setVisible] = useState(false);
   const showBatch = result.batchMonthlyCost !== undefined;
   const showCachingSavings = promptCachingEnabled && result.cacheSavingsMonthly > 0;
 
   if (!showBatch && !showCachingSavings) return null;
 
   return (
-    <div className="glass-card p-5 transition-all duration-300 hover:border-white/[0.12]">
-      <h4 className="text-sm font-semibold text-white mb-3">
-        {isZh ? '降本优化建议' : 'Cost Optimization Insights'}
-      </h4>
-      <div className="space-y-3">
-        {showBatch && result.batchMonthlyCost !== undefined && (
-          <div className="rounded-xl border border-emerald-700 bg-emerald-900/20 p-3 text-xs leading-relaxed text-emerald-100">
-            {isZh ? (
-              <>
-                ✨ Batch API 可用：如果您的任务允许异步处理（24 小时内返回），使用 Batch 模式总价将降至{' '}
-                <span className="font-mono font-semibold text-emerald-300">${formatCost(result.batchMonthlyCost)}</span>{' '}
-                (节省 {formatSavingsPercent(result.batchMonthlySavings ?? 0, result.noCacheMonthlyCost)})。
-              </>
-            ) : (
-              <>
-                ✨ Batch API available: If your workload can run asynchronously and return within 24 hours, Batch mode can reduce the total to{' '}
-                <span className="font-mono font-semibold text-emerald-300">${formatCost(result.batchMonthlyCost)}</span>{' '}
-                (save {formatSavingsPercent(result.batchMonthlySavings ?? 0, result.noCacheMonthlyCost)}).
-              </>
+    <span
+      className="relative inline-flex"
+      onMouseEnter={() => setVisible(true)}
+      onMouseLeave={() => setVisible(false)}
+      onFocus={() => setVisible(true)}
+      onBlur={() => setVisible(false)}
+    >
+      <button
+        type="button"
+        className="flex h-6 w-6 items-center justify-center rounded-full border border-emerald-500/40 bg-emerald-500/10 text-xs font-bold text-emerald-300 shadow-[0_0_18px_rgba(16,185,129,0.16)] transition-colors hover:border-emerald-400/60 hover:bg-emerald-500/20 hover:text-emerald-100"
+        aria-label={isZh ? '降本优化建议' : 'Cost Optimization Insights'}
+      >
+        i
+      </button>
+      {visible && (
+        <span className="pointer-events-none absolute left-1/2 top-8 z-50 w-96 -translate-x-1/2 rounded-xl border border-emerald-500/30 bg-[#0F172A]/95 p-4 text-xs leading-relaxed text-gray-100 shadow-2xl shadow-emerald-950/40 backdrop-blur-xl animate-[tooltip-enter_150ms_ease-out_forwards]">
+          <span className="mb-2 block text-sm font-semibold text-emerald-200">
+            {isZh ? '降本优化建议' : 'Cost Optimization Insights'}
+          </span>
+          <span className="space-y-2 block">
+            {showBatch && result.batchMonthlyCost !== undefined && (
+              <span className="block rounded-lg border border-emerald-700 bg-emerald-900/20 p-2 text-emerald-100">
+                {isZh ? (
+                  <>
+                    ✨ Batch API 可用：如果您的任务允许异步处理（24 小时内返回），使用 Batch 模式总价将降至{' '}
+                    <span className="font-mono font-semibold text-emerald-300">${formatCost(result.batchMonthlyCost)}</span>{' '}
+                    (节省 {formatSavingsPercent(result.batchMonthlySavings ?? 0, result.noCacheMonthlyCost)})。
+                  </>
+                ) : (
+                  <>
+                    ✨ Batch API available: If your workload can run asynchronously and return within 24 hours, Batch mode can reduce the total to{' '}
+                    <span className="font-mono font-semibold text-emerald-300">${formatCost(result.batchMonthlyCost)}</span>{' '}
+                    (save {formatSavingsPercent(result.batchMonthlySavings ?? 0, result.noCacheMonthlyCost)}).
+                  </>
+                )}
+              </span>
             )}
-          </div>
-        )}
-        {showCachingSavings && (
-          <div className="rounded-xl border border-purple-500/30 bg-purple-500/10 p-3 text-xs leading-relaxed text-purple-100">
-            {isZh ? (
-              <>
-                💡 系统精算推荐：您当前的上下文长度和复用频次已达到拐点，强烈建议在代码中显式开启 Prompt Caching，预计可为您节省{' '}
-                <span className="font-mono font-semibold text-purple-300">${formatCost(result.cacheSavingsMonthly)}</span>。
-              </>
-            ) : (
-              <>
-                💡 System recommendation: Your current context length and reuse frequency have reached the break-even point. Explicitly enable Prompt Caching in code to save an estimated{' '}
-                <span className="font-mono font-semibold text-purple-300">${formatCost(result.cacheSavingsMonthly)}</span>.
-              </>
+            {showCachingSavings && (
+              <span className="block rounded-lg border border-purple-500/30 bg-purple-500/10 p-2 text-purple-100">
+                {isZh ? (
+                  <>
+                    💡 系统精算推荐：您当前的上下文长度和复用频次已达到拐点，强烈建议在代码中显式开启 Prompt Caching，预计可为您节省{' '}
+                    <span className="font-mono font-semibold text-purple-300">${formatCost(result.cacheSavingsMonthly)}</span>。
+                  </>
+                ) : (
+                  <>
+                    💡 System recommendation: Your current context length and reuse frequency have reached the break-even point. Explicitly enable Prompt Caching in code to save an estimated{' '}
+                    <span className="font-mono font-semibold text-purple-300">${formatCost(result.cacheSavingsMonthly)}</span>.
+                  </>
+                )}
+              </span>
             )}
-          </div>
-        )}
-      </div>
-    </div>
+          </span>
+        </span>
+      )}
+    </span>
   );
 }
 

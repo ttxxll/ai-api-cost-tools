@@ -12,9 +12,11 @@
       "PowerShell(New-Item *)",
       "PowerShell(npm install *)",
       "PowerShell($routes = @\\('/', '/api/pricing', '/deepseek-api-cost-calculator', '/ai-model-price-comparison', '/zh', '/zh/deepseek-api-cost-calculator'\\); foreach \\($route in $routes\\) { $url = \"http://localhost:3000$route\"; try { $response = Invoke-WebRequest -Uri $url -UseBasicParsing -TimeoutSec 20; Write-Output \"$route $\\($response.StatusCode\\)\" } catch { Write-Output \"$route ERROR $\\($_.Exception.Message\\)\"; exit 1 } })",
-      "WebFetch(domain:openrouter.ai)",
       "PowerShell(Write-Error *)",
-      "PowerShell($routes = @\\('/', '/zh', '/api/pricing', '/deepseek-api-cost-calculator', '/ai-model-price-comparison'\\); foreach \\($route in $routes\\) { $r = Invoke-WebRequest -Uri \"http://localhost:3000$route\" -UseBasicParsing -TimeoutSec 10; \"$route $\\($r.StatusCode\\)\"; if \\($route -eq '/api/pricing'\\) { $json = $r.Content | ConvertFrom-Json; \"source=$\\($json.source\\) count=$\\($json.count\\) hasDeepSeekV4Flash=$\\([bool]\\($json.models | Where-Object { $_.id -eq 'deepseek-v4-flash' }\\)\\)\" } })"
+      "PowerShell($routes = @\\('/', '/zh', '/api/pricing', '/deepseek-api-cost-calculator', '/ai-model-price-comparison'\\); foreach \\($route in $routes\\) { $r = Invoke-WebRequest -Uri \"http://localhost:3000$route\" -UseBasicParsing -TimeoutSec 10; \"$route $\\($r.StatusCode\\)\"; if \\($route -eq '/api/pricing'\\) { $json = $r.Content | ConvertFrom-Json; \"source=$\\($json.source\\) count=$\\($json.count\\) hasDeepSeekV4Flash=$\\([bool]\\($json.models | Where-Object { $_.id -eq 'deepseek-v4-flash' }\\)\\)\" } })",
+      "Bash(npm run *)",
+      "Bash(npm ci *)",
+      "Bash(node *)"
     ]
   }
 }
