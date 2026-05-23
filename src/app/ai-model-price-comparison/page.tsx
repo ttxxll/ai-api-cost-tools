@@ -16,12 +16,12 @@ export default function AiModelPriceComparison() {
     {
       question: 'Which AI model is cheapest?',
       answer:
-        'DeepSeek Chat is one of the cheapest tracked models at $0.28/$0.42 per million input/output tokens. However, consider factors like quality, speed, and context window.'
+        'DeepSeek V4 Flash is one of the cheapest tracked models at $0.14/$0.28 per million input/output tokens. However, consider factors like quality, speed, and context window.'
     },
     {
       question: 'How do I choose between models?',
       answer:
-        'Consider your use case: Haiku/Flash for simple tasks, Sonnet/GPT-4o for general use, Opus/o1 for complex reasoning. Balance cost with quality needs.',
+        'Consider your use case: Flash/Flash-Lite for simple tasks, Sonnet/GPT-5.4 for general use, and Opus/GPT-5.5 for higher-end workloads. Balance cost with quality needs.',
     },
   ];
 

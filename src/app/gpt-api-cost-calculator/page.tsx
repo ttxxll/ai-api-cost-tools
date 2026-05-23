@@ -7,7 +7,7 @@ import Footer from '@/components/layout/Footer';
 export const metadata = {
   title: 'GPT API Cost Calculator - Estimate OpenAI GPT Pricing',
   description:
-    'Calculate OpenAI GPT API costs for GPT-4o, o1, and o3 models. Free online calculator.',
+    'Calculate OpenAI GPT API costs for GPT-5.5, GPT-5.4, and GPT-5.4 Mini models. Free online calculator.',
   alternates: {
     canonical: 'https://aiapicost.tools/gpt-api-cost-calculator',
     languages: { en: 'https://aiapicost.tools/gpt-api-cost-calculator', zh: 'https://aiapicost.tools/zh/gpt-api-cost-calculator' },
@@ -17,19 +17,19 @@ export const metadata = {
 export default function GptApiCostCalculator() {
   const faqItems = [
     {
-      question: 'How much does GPT-4o API cost?',
+      question: 'How much does GPT-5.4 API cost?',
       answer:
-        'GPT-4o costs $2.50 per million input tokens and $10.00 per million output tokens.',
+        'GPT-5.4 costs $2.50 per million input tokens and $15.00 per million output tokens.',
     },
     {
       question: 'What is the cheapest OpenAI model?',
       answer:
-        'GPT-4o mini is the cheapest at $0.15 per million input tokens and $0.60 per million output tokens.',
+        'GPT-5.4 Mini is the cheapest tracked OpenAI model at $0.75 per million input tokens and $4.50 per million output tokens.',
     },
     {
-      question: 'How much does o1 cost?',
+      question: 'How much does GPT-5.5 cost?',
       answer:
-        'o1 costs $15.00 per million input tokens and $60.00 per million output tokens due to its advanced reasoning capabilities.',
+        'GPT-5.5 costs $5.00 per million input tokens and $30.00 per million output tokens.'
     },
   ];
 
@@ -44,7 +44,7 @@ export default function GptApiCostCalculator() {
               GPT API Cost Calculator
             </h1>
             <p className="text-lg text-gray-400">
-              Calculate OpenAI GPT API costs for GPT-4o, o1, and o3 models
+              Calculate OpenAI GPT API costs for GPT-5.5, GPT-5.4, and GPT-5.4 Mini models
             </p>
           </div>
         </section>
@@ -64,15 +64,15 @@ export default function GptApiCostCalculator() {
             </h2>
             <div className="glass-card p-6">
               <p className="text-gray-500 mb-4">
-                Using GPT-4o with 1,000 input tokens and 500 output tokens per
+                Using GPT-5.4 with 1,000 input tokens and 500 output tokens per
                 call, making 100 calls per day:
               </p>
               <ul className="space-y-2 text-sm text-gray-500">
                 <li>• Input cost per call: 1,000 × $2.50 / 1M = $0.0025</li>
-                <li>• Output cost per call: 500 × $10 / 1M = $0.005</li>
-                <li>• Total per call: $0.0075</li>
-                <li>• Daily cost: $0.0075 × 100 = $0.75</li>
-                <li>• Monthly cost: $0.75 × 30 = $22.50</li>
+                <li>• Output cost per call: 500 × $15 / 1M = $0.0075</li>
+                <li>• Total per call: $0.0100</li>
+                <li>• Daily cost: $0.0100 × 100 = $1.00</li>
+                <li>• Monthly cost: $1.00 × 30 = $30.00</li>
               </ul>
             </div>
           </div>

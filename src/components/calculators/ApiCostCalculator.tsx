@@ -1,12 +1,13 @@
 'use client';
 
-import { useState, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import CalculatorField from './CalculatorField';
-import ModelSelector from './ModelSelector';
+import ModelSelector, { DeepSeekPromoBadge } from './ModelSelector';
 import {
   calculateApiCost,
   formatCost,
   formatTokens,
+  type ApiCostResult,
   type CustomModelData,
 } from '@/lib/calculators/apiCost';
 
@@ -33,6 +34,8 @@ export default function ApiCostCalculator({
   const [requestsPerCall, setRequestsPerCall] = useState(1);
   const [callsPerDay, setCallsPerDay] = useState(100);
   const [cacheHitRate, setCacheHitRate] = useState(0);
+  const [promptCachingEnabled, setPromptCachingEnabled] = useState(filterProvider === 'deepseek');
+  const [cacheTtlHours, setCacheTtlHours] = useState(0);
   const [internalCustomModel, setInternalCustomModel] = useState<CustomModelData | null>(customModel || null);
 
   const activeCustomModel = internalCustomModel;
@@ -44,8 +47,23 @@ export default function ApiCostCalculator({
     requestsPerCall,
     callsPerDay,
     cacheHitRate,
+    promptCachingEnabled,
+    cacheTtlHours,
     customModel: activeCustomModel || undefined,
   });
+
+  const selectedModel = result?.model;
+  const supportsCaching = Boolean(selectedModel?.caching.isSupported && !activeCustomModel);
+  const showCacheHitRate = Boolean(
+    supportsCaching && promptCachingEnabled && selectedModel?.caching.readPricePerM !== undefined
+  );
+  const showGoogleCacheTtl = Boolean(
+    supportsCaching &&
+      promptCachingEnabled &&
+      selectedModel?.provider === 'Google' &&
+      selectedModel.caching.storagePricePerMPerHour !== undefined
+  );
+  const showOpenAiContextWarning = selectedModel?.provider === 'OpenAI' && inputTokens > 270000;
 
   function scrollToResult() {
     resultRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' });
@@ -53,7 +71,6 @@ export default function ApiCostCalculator({
 
   return (
     <div className="grid grid-cols-1 lg:grid-cols-5 gap-5">
-      {/* Input Section */}
       <div className="lg:col-span-2 glass-card p-5 transition-all duration-300 hover:border-white/[0.12]">
         <div className="flex items-center gap-2 mb-4">
           <div className="w-7 h-7 rounded-lg bg-purple-500/10 border border-purple-500/20 flex items-center justify-center text-purple-400 text-xs">
@@ -69,6 +86,9 @@ export default function ApiCostCalculator({
             onChange={(id) => {
               if (id === 'custom') {
                 setInternalCustomModel({ name: '', inputPricePerM: 0, outputPricePerM: 0 });
+                setPromptCachingEnabled(false);
+                setCacheHitRate(0);
+                setCacheTtlHours(0);
               } else {
                 setModelId(id);
                 setInternalCustomModel(null);
@@ -95,6 +115,7 @@ export default function ApiCostCalculator({
               icon="📤"
             />
           </div>
+          {showOpenAiContextWarning && <OpenAiContextWarning />}
           <div className="grid grid-cols-2 gap-3">
             <CalculatorField
               label={isZh ? '每次请求数' : 'Requests/Call'}
@@ -111,7 +132,21 @@ export default function ApiCostCalculator({
               icon="📅"
             />
           </div>
-          {filterProvider === 'deepseek' && (
+          {supportsCaching && selectedModel && (
+            <PromptCachingSwitch
+              enabled={promptCachingEnabled}
+              onChange={(enabled) => {
+                setPromptCachingEnabled(enabled);
+                if (!enabled) {
+                  setCacheHitRate(0);
+                  setCacheTtlHours(0);
+                }
+              }}
+              showAnthropicTooltip={selectedModel.provider === 'Anthropic'}
+              isZh={isZh}
+            />
+          )}
+          {showCacheHitRate && (
             <CalculatorField
               label={isZh ? '缓存命中率' : 'Cache Hit Rate'}
               value={cacheHitRate}
@@ -121,7 +156,20 @@ export default function ApiCostCalculator({
               max={100}
               suffix="%"
               icon="💾"
-              helpText={isZh ? 'DeepSeek 支持缓存命中折扣' : 'DeepSeek cache hit discount'}
+              helpText={isZh ? '根据当前模型缓存读取价格估算命中折扣' : 'Estimated with the selected model cache-read price'}
+            />
+          )}
+          {showGoogleCacheTtl && (
+            <CalculatorField
+              label="Cache TTL / 挂载时长"
+              value={cacheTtlHours}
+              onChange={setCacheTtlHours}
+              min={0}
+              max={24}
+              step={1}
+              suffix="hours"
+              icon="⏱️"
+              helpText={isZh ? 'Google 缓存存储按每百万 Token 每小时计费' : 'Google cache storage is billed per 1M tokens per hour'}
             />
           )}
           <button
@@ -133,17 +181,14 @@ export default function ApiCostCalculator({
         </div>
       </div>
 
-      {/* Result Section */}
       <div ref={resultRef} className="lg:col-span-3 space-y-5 scroll-mt-4">
-        {/* Cost Result Card */}
         {result && (
           <div className="relative glass-card p-5 overflow-hidden transition-all duration-300 hover:border-white/[0.12]">
-            {/* Subtle glow background */}
             <div className="absolute top-0 right-0 w-32 h-32 bg-purple-500/5 rounded-full blur-3xl pointer-events-none" />
             <div className="absolute bottom-0 left-0 w-24 h-24 bg-cyan-500/5 rounded-full blur-3xl pointer-events-none" />
 
             <div className="relative">
-              <div className="flex items-center gap-2 mb-4">
+              <div className="flex flex-wrap items-center gap-2 mb-4">
                 <div className="w-7 h-7 rounded-lg bg-purple-500/10 border border-purple-500/20 flex items-center justify-center text-xs">
                   💰
                 </div>
@@ -151,9 +196,9 @@ export default function ApiCostCalculator({
                 <span className="ml-auto text-[10px] text-gray-500 bg-white/[0.03] px-2 py-0.5 rounded-full border border-white/[0.06]">
                   {result.model.displayName}
                 </span>
+                {result.model.id === 'deepseek-v4-pro' && <DeepSeekPromoBadge />}
               </div>
 
-              {/* 3 big numbers */}
               <div className="grid grid-cols-3 gap-3 mb-4">
                 <div className="bg-white/[0.03] border border-white/[0.06] rounded-xl p-3 text-center">
                   <p className="text-[10px] text-gray-500 mb-1 uppercase tracking-wider">{isZh ? '单次' : 'Per Call'}</p>
@@ -169,30 +214,36 @@ export default function ApiCostCalculator({
                 </div>
               </div>
 
-              {/* Detail grid */}
+              {result.pricingTier === 'over200k' && (
+                <div className="mb-4 rounded-xl border border-cyan-500/20 bg-cyan-500/10 px-3 py-2 text-xs text-cyan-200">
+                  {isZh ? '(已触发 >200k 长文本翻倍费率)' : '(Triggered >200k long-context premium pricing)'}{' '}
+                  <span className="font-mono text-cyan-300">
+                    In ${result.effectiveInputPricePerM}/M · Out ${result.effectiveOutputPricePerM}/M
+                  </span>
+                </div>
+              )}
+
               <div className="grid grid-cols-2 gap-2 text-xs">
-                <div className="flex justify-between bg-white/[0.03] border border-white/[0.06] rounded-lg px-3 py-2">
-                  <span className="text-gray-500">{isZh ? '输入成本' : 'Input'}</span>
-                  <span className="font-mono text-gray-300">${formatCost(result.inputCostPerCall)}</span>
-                </div>
-                <div className="flex justify-between bg-white/[0.03] border border-white/[0.06] rounded-lg px-3 py-2">
-                  <span className="text-gray-500">{isZh ? '输出成本' : 'Output'}</span>
-                  <span className="font-mono text-gray-300">${formatCost(result.outputCostPerCall)}</span>
-                </div>
-                <div className="flex justify-between bg-white/[0.03] border border-white/[0.06] rounded-lg px-3 py-2">
-                  <span className="text-gray-500">{isZh ? '每日输入' : 'Daily In'}</span>
-                  <span className="font-mono text-gray-300">{formatTokens(result.inputTokensPerDay)}</span>
-                </div>
-                <div className="flex justify-between bg-white/[0.03] border border-white/[0.06] rounded-lg px-3 py-2">
-                  <span className="text-gray-500">{isZh ? '每日输出' : 'Daily Out'}</span>
-                  <span className="font-mono text-gray-300">{formatTokens(result.outputTokensPerDay)}</span>
-                </div>
+                <CostLine label={isZh ? '输入成本' : 'Input'} value={`$${formatCost(result.inputCostPerCall)}`} />
+                <CostLine label={isZh ? '输出成本' : 'Output'} value={`$${formatCost(result.outputCostPerCall)}`} />
+                {result.cacheReadCostPerCall > 0 && (
+                  <CostLine label={isZh ? '缓存读取' : 'Cache Read'} value={`$${formatCost(result.cacheReadCostPerCall)}`} />
+                )}
+                {result.cacheWriteCostPerCall > 0 && (
+                  <CostLine label={isZh ? '缓存写入' : 'Cache Write'} value={`$${formatCost(result.cacheWriteCostPerCall)}`} />
+                )}
+                {result.cacheStorageCostPerCall > 0 && (
+                  <CostLine label="Storage Cost (挂载费)" value={`$${formatCost(result.cacheStorageCostPerCall)}`} />
+                )}
+                <CostLine label={isZh ? '每日输入' : 'Daily In'} value={formatTokens(result.inputTokensPerDay)} />
+                <CostLine label={isZh ? '每日输出' : 'Daily Out'} value={formatTokens(result.outputTokensPerDay)} />
               </div>
             </div>
           </div>
         )}
 
-        {/* Formula */}
+        {result && <CostOptimizationInsights result={result} promptCachingEnabled={promptCachingEnabled} isZh={isZh} />}
+
         <div className="glass-card p-5 transition-all duration-300 hover:border-white/[0.12]">
           <h4 className="text-sm font-semibold text-white mb-3">
             {isZh ? '计算原理' : 'How It Works'}
@@ -232,12 +283,171 @@ export default function ApiCostCalculator({
   );
 }
 
+function PromptCachingSwitch({
+  enabled,
+  onChange,
+  showAnthropicTooltip,
+  isZh,
+}: {
+  enabled: boolean;
+  onChange: (enabled: boolean) => void;
+  showAnthropicTooltip: boolean;
+  isZh: boolean;
+}) {
+  return (
+    <div className="rounded-xl border border-white/[0.08] bg-white/[0.03] px-3 py-3">
+      <div className="flex items-center justify-between gap-3">
+        <div className="flex items-center gap-2">
+          <span className="text-sm opacity-60">💾</span>
+          <span className="text-sm font-medium text-gray-300">{isZh ? '提示词缓存' : 'Prompt Caching'}</span>
+          {showAnthropicTooltip && <AnthropicCacheTooltip isZh={isZh} />}
+        </div>
+        <button
+          type="button"
+          role="switch"
+          aria-checked={enabled}
+          onClick={() => onChange(!enabled)}
+          className={`relative h-6 w-11 rounded-full border transition-colors ${
+            enabled ? 'border-purple-400/50 bg-purple-500/40' : 'border-white/[0.12] bg-gray-800/80'
+          }`}
+        >
+          <span
+            className={`absolute top-0.5 h-5 w-5 rounded-full bg-white shadow transition-transform ${
+              enabled ? 'translate-x-5' : 'translate-x-0.5'
+            }`}
+          />
+        </button>
+      </div>
+    </div>
+  );
+}
+
+function AnthropicCacheTooltip({ isZh }: { isZh: boolean }) {
+  const [visible, setVisible] = useState(false);
+  const hideTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+  useEffect(() => {
+    return () => {
+      if (hideTimerRef.current) clearTimeout(hideTimerRef.current);
+    };
+  }, []);
+
+  function flashTooltip() {
+    if (hideTimerRef.current) clearTimeout(hideTimerRef.current);
+    setVisible(true);
+    hideTimerRef.current = setTimeout(() => {
+      setVisible(false);
+      hideTimerRef.current = null;
+    }, 1000);
+  }
+
+  return (
+    <span className="relative inline-flex" onMouseEnter={flashTooltip} onFocus={flashTooltip}>
+      <span className="flex h-6 w-6 cursor-help items-center justify-center rounded-full border border-cyan-400/40 bg-cyan-400/10 text-xs font-bold text-cyan-300 shadow-[0_0_18px_rgba(34,211,238,0.18)] transition-colors hover:border-cyan-300 hover:bg-cyan-400/20 hover:text-white">
+        i
+      </span>
+      <span className={`pointer-events-none absolute left-1/2 top-8 z-50 w-80 -translate-x-1/2 rounded-xl border border-cyan-400/30 bg-[#0F172A]/95 p-4 text-xs leading-relaxed text-gray-100 shadow-2xl shadow-cyan-950/50 backdrop-blur-xl transition-all duration-150 ${visible ? 'translate-y-0 opacity-100' : '-translate-y-1 opacity-0'}`}>
+        <span className="mb-1 block text-sm font-semibold text-cyan-200">
+          {isZh ? '缓存写入计费说明' : 'Cache Write Billing Notes'}
+        </span>
+        {isZh
+          ? '默认按照 5 分钟 (5m) 短期驻留标准计算写入费。Anthropic 官方提供 1 小时长期锁定时长，但写入成本将翻倍。短频次对话建议保持默认，长时离线任务需注意成本飙升。'
+          : 'By default, this calculator uses the 5-minute (5m) short-lived cache write rate. Anthropic also offers a 1-hour long-lived cache duration, but write costs are doubled. Keep the default for short, frequent conversations; long offline jobs should account for sharply higher write costs.'}
+      </span>
+    </span>
+  );
+}
+
+function OpenAiContextWarning() {
+  return (
+    <div className="rounded-xl border border-amber-700 bg-amber-900/20 px-3 py-3 text-xs leading-relaxed text-amber-200">
+      <p>
+        ⚠️ Context Limit Exceeded: OpenAI 官方公共 API 限制最大上下文为 270,000 Tokens。上述价格反映的是标准费率，超出此限制 API 将被拒绝或需联系销售走企业通道。
+      </p>
+      <p className="mt-1 text-amber-300/80">
+        💡 架构建议：处理当前超大文本，建议切换至 Gemini 3.1 Pro 或 Claude Opus。
+      </p>
+    </div>
+  );
+}
+
+function CostLine({ label, value }: { label: string; value: string }) {
+  return (
+    <div className="flex justify-between bg-white/[0.03] border border-white/[0.06] rounded-lg px-3 py-2">
+      <span className="text-gray-500">{label}</span>
+      <span className="font-mono text-gray-300">{value}</span>
+    </div>
+  );
+}
+
+function CostOptimizationInsights({
+  result,
+  promptCachingEnabled,
+  isZh,
+}: {
+  result: ApiCostResult;
+  promptCachingEnabled: boolean;
+  isZh: boolean;
+}) {
+  const showBatch = result.batchMonthlyCost !== undefined;
+  const showCachingSavings = promptCachingEnabled && result.cacheSavingsMonthly > 0;
+
+  if (!showBatch && !showCachingSavings) return null;
+
+  return (
+    <div className="glass-card p-5 transition-all duration-300 hover:border-white/[0.12]">
+      <h4 className="text-sm font-semibold text-white mb-3">
+        {isZh ? '降本优化建议' : 'Cost Optimization Insights'}
+      </h4>
+      <div className="space-y-3">
+        {showBatch && result.batchMonthlyCost !== undefined && (
+          <div className="rounded-xl border border-emerald-700 bg-emerald-900/20 p-3 text-xs leading-relaxed text-emerald-100">
+            {isZh ? (
+              <>
+                ✨ Batch API 可用：如果您的任务允许异步处理（24 小时内返回），使用 Batch 模式总价将降至{' '}
+                <span className="font-mono font-semibold text-emerald-300">${formatCost(result.batchMonthlyCost)}</span>{' '}
+                (节省 {formatSavingsPercent(result.batchMonthlySavings ?? 0, result.noCacheMonthlyCost)})。
+              </>
+            ) : (
+              <>
+                ✨ Batch API available: If your workload can run asynchronously and return within 24 hours, Batch mode can reduce the total to{' '}
+                <span className="font-mono font-semibold text-emerald-300">${formatCost(result.batchMonthlyCost)}</span>{' '}
+                (save {formatSavingsPercent(result.batchMonthlySavings ?? 0, result.noCacheMonthlyCost)}).
+              </>
+            )}
+          </div>
+        )}
+        {showCachingSavings && (
+          <div className="rounded-xl border border-purple-500/30 bg-purple-500/10 p-3 text-xs leading-relaxed text-purple-100">
+            {isZh ? (
+              <>
+                💡 系统精算推荐：您当前的上下文长度和复用频次已达到拐点，强烈建议在代码中显式开启 Prompt Caching，预计可为您节省{' '}
+                <span className="font-mono font-semibold text-purple-300">${formatCost(result.cacheSavingsMonthly)}</span>。
+              </>
+            ) : (
+              <>
+                💡 System recommendation: Your current context length and reuse frequency have reached the break-even point. Explicitly enable Prompt Caching in code to save an estimated{' '}
+                <span className="font-mono font-semibold text-purple-300">${formatCost(result.cacheSavingsMonthly)}</span>.
+              </>
+            )}
+          </div>
+        )}
+      </div>
+    </div>
+  );
+}
+
+function formatSavingsPercent(savings: number, baseline: number): string {
+  if (baseline <= 0) return '0%';
+  return `${Math.round((savings / baseline) * 100)}%`;
+}
+
 function getDefaultModel(provider: string): string {
   const defaults: Record<string, string> = {
     anthropic: 'claude-sonnet-4.6',
     openai: 'gpt-5.4',
-    google: 'gemini-3.1-pro-preview',
-    deepseek: 'deepseek-chat',
+    google: 'gemini-3.1-pro',
+    deepseek: 'deepseek-v4-flash',
   };
   return defaults[provider] || 'claude-sonnet-4.6';
 }

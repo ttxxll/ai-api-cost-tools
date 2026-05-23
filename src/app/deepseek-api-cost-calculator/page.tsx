@@ -7,7 +7,7 @@ import Footer from '@/components/layout/Footer';
 export const metadata = {
   title: 'DeepSeek API Cost Calculator - Estimate DeepSeek Pricing',
   description:
-    'Calculate DeepSeek API costs for Chat and Reasoner models. Free online calculator.',
+    'Calculate DeepSeek API costs for V4 Pro and V4 Flash models. Free online calculator.',
   alternates: {
     canonical: 'https://aiapicost.tools/deepseek-api-cost-calculator',
     languages: { en: 'https://aiapicost.tools/deepseek-api-cost-calculator', zh: 'https://aiapicost.tools/zh/deepseek-api-cost-calculator' },
@@ -17,14 +17,14 @@ export const metadata = {
 export default function DeepSeekApiCostCalculator() {
   const faqItems = [
     {
-      question: 'How much does DeepSeek Chat cost?',
+      question: 'How much does DeepSeek V4 Flash cost?',
       answer:
-        'DeepSeek Chat costs $0.28 per million input tokens and $0.42 per million output tokens. Cache hits are $0.028 per million tokens.'
+        'DeepSeek V4 Flash costs $0.14 per million input tokens and $0.28 per million output tokens. Cache hits are $0.0028 per million tokens.'
     },
     {
       question: 'What is DeepSeek Reasoner pricing?',
       answer:
-        'DeepSeek Reasoner uses the tracked OpenRouter pricing: $0.28 per million input tokens and $0.42 per million output tokens.',
+        'DeepSeek V4 pricing is manually maintained from public provider pricing, with DeepSeek V4 Flash at $0.14 per million input tokens and $0.28 per million output tokens.',
     },
     {
       question: 'How does DeepSeek cache pricing work?',
@@ -44,7 +44,7 @@ export default function DeepSeekApiCostCalculator() {
               DeepSeek API Cost Calculator
             </h1>
             <p className="text-lg text-gray-400">
-              Calculate DeepSeek API costs for Chat and Reasoner models
+              Calculate DeepSeek API costs for V4 Pro and V4 Flash models
             </p>
           </div>
         </section>
@@ -64,20 +64,20 @@ export default function DeepSeekApiCostCalculator() {
             </h2>
             <div className="glass-card p-6">
               <p className="text-gray-500 mb-4">
-                Using DeepSeek Chat with 1,000 input tokens and 500 output
+                Using DeepSeek V4 Flash with 1,000 input tokens and 500 output
                 tokens per call, making 100 calls per day (50% cache hit rate):
               </p>
               <ul className="space-y-2 text-sm text-gray-500">
                 <li>
-                  • Cache hit input cost: 500 × $0.028 / 1M = $0.000014
+                  • Cache hit input cost: 500 × $0.0028 / 1M = $0.0000014
                 </li>
                 <li>
-                  • Cache miss input cost: 500 × $0.28 / 1M = $0.00014
+                  • Cache miss input cost: 500 × $0.14 / 1M = $0.00007
                 </li>
-                <li>• Output cost: 500 × $0.42 / 1M = $0.00021</li>
-                <li>• Total per call: $0.000364</li>
-                <li>• Daily cost: $0.000364 × 100 = $0.0364</li>
-                <li>• Monthly cost: $0.0364 × 30 = $1.09</li>
+                <li>• Output cost: 500 × $0.28 / 1M = $0.00014</li>
+                <li>• Total per call: $0.0002114</li>
+                <li>• Daily cost: $0.0002114 × 100 = $0.02114</li>
+                <li>• Monthly cost: $0.02114 × 30 = $0.63</li>
               </ul>
             </div>
           </div>

@@ -21,7 +21,7 @@
     },
     "gpt": {
       "name": "GPT API Cost Calculator",
-      "description": "Calculate OpenAI GPT API costs for GPT-4o, o1, and o3 models"
+      "description": "Calculate OpenAI GPT API costs for GPT-5.5, GPT-5.4, and GPT-5.4 Mini models"
     },
     "gemini": {
       "name": "Gemini API Cost Calculator",

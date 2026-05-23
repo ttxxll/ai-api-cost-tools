@@ -21,7 +21,7 @@
     },
     "gpt": {
       "name": "GPT API 成本计算器",
-      "description": "计算 OpenAI GPT API 的调用成本，支持 GPT-4o、o1、o3 模型"
+      "description": "计算 OpenAI GPT API 的调用成本，支持 GPT-5.5、GPT-5.4 和 GPT-5.4 Mini 模型"
     },
     "gemini": {
       "name": "Gemini API 成本计算器",

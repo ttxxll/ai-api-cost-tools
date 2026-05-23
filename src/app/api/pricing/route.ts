@@ -6,17 +6,7 @@ export function GET() {
   return Response.json({
     success: true,
     count: MODELS_DATA.length,
-    models: MODELS_DATA.map((model) => ({
-      id: model.id,
-      name: model.displayName,
-      provider: model.provider,
-      inputPricePerM: model.inputPricePerM,
-      outputPricePerM: model.outputPricePerM,
-      contextWindow: model.contextWindow,
-      maxOutput: model.maxOutput,
-      caching: model.caching,
-      openRouterId: model.openRouterId,
-    })),
-    source: 'openrouter-static',
+    models: MODELS_DATA,
+    source: 'manual-static',
   });
 }

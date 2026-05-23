@@ -15,6 +15,10 @@ export interface BatchEstimatorResult {
   inputCost: number;
   outputCost: number;
   totalCost: number;
+  standardTotalCost: number;
+  savings: number;
+  isBatchSupported: boolean;
+  usedBatchPricing: boolean;
   estimatedTimeMinutes: number;
 }
 
@@ -24,18 +28,26 @@ export function estimateBatchCost(
   const model = getModelById(input.modelId);
   if (!model) return null;
 
-  // Calculate total tokens
   const totalInputTokens = input.inputTokensPerTask * input.taskCount;
   const totalOutputTokens = input.outputTokensPerTask * input.taskCount;
   const totalTokens = totalInputTokens + totalOutputTokens;
+  const isBatchSupported = model.batchPricing.isSupported;
+  const inputPricePerM = isBatchSupported
+    ? model.batchPricing.inputPricePerM ?? model.inputPricePerM
+    : model.inputPricePerM;
+  const outputPricePerM = isBatchSupported
+    ? model.batchPricing.outputPricePerM ?? model.outputPricePerM
+    : model.outputPricePerM;
 
-  // Calculate costs
-  const inputCost = (totalInputTokens * model.inputPricePerM) / 1000000;
+  const inputCost = (totalInputTokens * inputPricePerM) / 1000000;
   const outputCost =
-    (totalOutputTokens * model.outputPricePerM) / 1000000;
+    (totalOutputTokens * outputPricePerM) / 1000000;
   const totalCost = inputCost + outputCost;
+  const standardTotalCost =
+    (totalInputTokens * model.inputPricePerM) / 1000000 +
+    (totalOutputTokens * model.outputPricePerM) / 1000000;
+  const savings = Math.max(standardTotalCost - totalCost, 0);
 
-  // Estimate time (rough estimate: ~2 seconds per task for batch processing)
   const estimatedTimeMinutes = Math.ceil((input.taskCount * 2) / 60);
 
   return {
@@ -46,6 +58,10 @@ export function estimateBatchCost(
     inputCost,
     outputCost,
     totalCost,
+    standardTotalCost,
+    savings,
+    isBatchSupported,
+    usedBatchPricing: isBatchSupported,
     estimatedTimeMinutes,
   };
 }

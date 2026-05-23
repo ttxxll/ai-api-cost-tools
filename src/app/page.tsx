@@ -79,7 +79,7 @@ export default function Home() {
                 {
                   step: '1',
                   title: 'Select a Model',
-                  desc: 'Choose from 18+ AI models across OpenAI, Anthropic, Google, DeepSeek, Mistral, and xAI. Each model shows its per-token pricing.',
+                  desc: 'Choose from 17 AI models across OpenAI, Anthropic, Google, DeepSeek, Mistral, and xAI. Each model shows its per-token pricing.',
                 },
                 {
                   step: '2',
@@ -110,7 +110,7 @@ export default function Home() {
             <div className="flex items-center gap-3 mb-6">
               <h2 className="text-xl font-bold text-white">Live Model Pricing</h2>
               <span className="text-[10px] text-gray-500 bg-white/[0.03] px-2 py-0.5 rounded-full border border-white/[0.06]">
-                via OpenRouter
+                Manual pricing
               </span>
             </div>
             <LiveComparisonCalculator onSelectModel={handleSelectModel} />
@@ -126,7 +126,7 @@ export default function Home() {
             </p>
             <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
               {[
-                { icon: '📊', title: '18 Models', desc: 'All major providers in one place' },
+                { icon: '📊', title: '17 Models', desc: 'All major providers in one place' },
                 { icon: '⚡', title: 'Real-time', desc: 'Instant calculations as you type' },
                 { icon: '🔄', title: 'Multi-unit', desc: 'Tokens, words, or characters' },
                 { icon: '💰', title: '100% Free', desc: 'No registration required' },
@@ -150,7 +150,7 @@ export default function Home() {
             </p>
             <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
               {[
-                { name: 'OpenAI', models: 'GPT-4o, GPT-5, o3', desc: 'Leading provider with versatile models for text, code, and multimodal tasks.' },
+                { name: 'OpenAI', models: 'GPT-5.5, GPT-5.4', desc: 'Leading provider with versatile models for text, code, and multimodal tasks.' },
                 { name: 'Anthropic', models: 'Claude 4.7, Sonnet, Opus', desc: 'Known for safety-focused models with strong reasoning and long context windows.' },
                 { name: 'Google', models: 'Gemini 3.1 Flash, Pro', desc: 'High-performance models with competitive pricing and large context support.' },
                 { name: 'DeepSeek', models: 'DeepSeek V4', desc: 'Cost-effective models with strong coding capabilities and cache discounts.' },
@@ -178,7 +178,7 @@ export default function Home() {
               {[
                 {
                   q: 'How accurate are the cost estimates?',
-                  a: "Our pricing data comes from OpenRouter's official Models endpoint and is refreshed regularly. The calculations are mathematically precise based on the pricing data we have. However, providers may update their pricing at any time, so we recommend verifying with official documentation before making financial decisions.",
+                  a: "Our pricing data is manually maintained from official and public provider pricing. The calculations are mathematically precise based on the pricing data we have. However, providers may update their pricing at any time, so we recommend verifying with official documentation before making financial decisions.",
                 },
                 {
                   q: 'Which AI providers do you support?',

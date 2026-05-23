@@ -105,6 +105,10 @@ export default function BatchApiCostEstimator() {
                         value: formatTokens(result.totalTokens),
                       },
                       {
+                        label: 'Pricing Mode',
+                        value: result.usedBatchPricing ? 'Batch pricing' : 'Standard pricing',
+                      },
+                      {
                         label: 'Input Cost',
                         value: `$${formatCost(result.inputCost)}`,
                       },
@@ -116,6 +120,10 @@ export default function BatchApiCostEstimator() {
                         label: 'Total Cost',
                         value: `$${formatCost(result.totalCost)}`,
                         highlight: true,
+                      },
+                      {
+                        label: result.isBatchSupported ? 'Batch Savings' : 'Batch Support',
+                        value: result.isBatchSupported ? `$${formatCost(result.savings)}` : 'Unavailable',
                       },
                       {
                         label: 'Estimated Time',

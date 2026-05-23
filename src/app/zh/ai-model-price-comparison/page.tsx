@@ -16,12 +16,12 @@ export default function AiModelPriceComparisonZh() {
     {
       question: '哪个 AI 模型最便宜？',
       answer:
-        'DeepSeek Chat 是当前跟踪模型中价格较低的选择之一，每百万输入/输出 token 收费 $0.28/$0.42。但请考虑质量、速度和上下文窗口等因素。',
+        'DeepSeek V4 Flash 是当前跟踪模型中价格较低的选择之一，每百万输入/输出 token 收费 $0.14/$0.28。但请考虑质量、速度和上下文窗口等因素。',
     },
     {
       question: '如何选择模型？',
       answer:
-        '根据您的使用场景：Haiku/Flash 用于简单任务，Sonnet/GPT-4o 用于通用场景，Opus/o1 用于复杂推理。平衡成本与质量需求。',
+        '根据您的使用场景：Flash/Flash-Lite 用于简单任务，Sonnet/GPT-5.4 用于通用场景，Opus/GPT-5.5 用于更高端工作负载。平衡成本与质量需求。',
     },
   ];
 

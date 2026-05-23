@@ -61,9 +61,9 @@ export default function AboutPage() {
             <section>
               <h2 className="text-lg font-semibold text-white mb-3">How It Works</h2>
               <p className="mb-3">
-                Our pricing data comes from OpenRouter&apos;s official Models endpoint. The data is
-                synchronized into this static site periodically to ensure reasonable accuracy while
-                maintaining fast load times.
+                Our pricing data is manually maintained from official and public provider pricing.
+                The data is bundled into this static site to ensure fast load times while keeping
+                cost estimates easy to compare.
               </p>
               <p>
                 All calculations happen directly in your browser — we do not store your input
@@ -91,8 +91,8 @@ export default function AboutPage() {
             <section>
               <h2 className="text-lg font-semibold text-white mb-3">Data Sources</h2>
               <p className="mb-3">
-                Model pricing data is sourced from OpenRouter&apos;s official Models endpoint and
-                generated into the static site. No runtime pricing API is required for normal use.
+                Model pricing data is manually maintained from official and public provider pricing
+                and bundled into the static site. No runtime pricing API is required for normal use.
               </p>
               <p>
                 We are not affiliated with any AI provider. All provider names and trademarks
@@ -137,7 +137,7 @@ function getToolDescEn(id: string): string {
   const descs: Record<string, string> = {
     token: 'Estimate input and output token costs across AI models.',
     claude: 'Estimate costs for Anthropic Claude API calls including Sonnet, Opus, and Haiku models.',
-    gpt: 'Calculate OpenAI GPT API costs for GPT-4o, GPT-5, and other models.',
+    gpt: 'Calculate OpenAI GPT API costs for GPT-5.5, GPT-5.4, and other models.',
     gemini: 'Estimate Google Gemini API pricing for Flash and Pro models.',
     deepseek: 'Calculate DeepSeek API costs with cache hit rate support.',
     comparison: 'Compare pricing across all major AI providers side by side.',

@@ -55,7 +55,7 @@ export default function AboutPageZh() {
             <section>
               <h2 className="text-lg font-semibold text-white mb-3">工作原理</h2>
               <p className="mb-3">
-                我们的定价数据来自 OpenRouter 官方 Models 端点，并定期同步到静态站点中，以确保合理的准确性同时保持快速的加载速度。
+                我们的定价数据根据官方和公开供应商价格手动维护，并打包到静态站点中，以保持快速的加载速度和便捷的成本比较。
               </p>
               <p>
                 所有计算直接在您的浏览器中完成 — 我们不会在服务器上存储您的输入数据或计算结果。这意味着您的成本估算完全私密，且无需任何账户或登录即可使用。
@@ -75,7 +75,7 @@ export default function AboutPageZh() {
             <section>
               <h2 className="text-lg font-semibold text-white mb-3">数据来源</h2>
               <p className="mb-3">
-                模型定价数据来自 OpenRouter 官方 Models 端点，并生成到静态站点中。正常使用不需要运行时定价 API。
+                模型定价数据根据官方和公开供应商价格手动维护，并打包到静态站点中。正常使用不需要运行时定价 API。
               </p>
               <p>
                 我们与任何 AI 供应商没有关联。所有供应商名称和商标属于其各自所有者。
@@ -118,7 +118,7 @@ function getToolDescZh(id: string): string {
   const descs: Record<string, string> = {
     token: '估算不同 AI 模型的输入和输出 Token 成本。',
     claude: '估算 Anthropic Claude API 调用成本，包括 Sonnet、Opus 和 Haiku 模型。',
-    gpt: '计算 OpenAI GPT API 成本，支持 GPT-4o、GPT-5 等模型。',
+    gpt: '计算 OpenAI GPT API 成本，支持 GPT-5.5、GPT-5.4 等模型。',
     gemini: '估算 Google Gemini API 定价，包括 Flash 和 Pro 模型。',
     deepseek: '计算 DeepSeek API 成本，支持缓存命中率。',
     comparison: '横向比较所有主要 AI 供应商的定价。',

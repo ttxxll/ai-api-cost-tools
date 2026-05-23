@@ -40,8 +40,8 @@ export default function TermsOfServicePage() {
                 estimate and budget for AI API usage costs.
               </p>
               <p>
-                The pricing data displayed is sourced from publicly available information and
-                OpenRouter&apos;s official Models endpoint. We make reasonable efforts to keep this data
+                The pricing data displayed is manually maintained from publicly available and
+                official provider pricing. We make reasonable efforts to keep this data
                 accurate and up-to-date, but we cannot guarantee its accuracy.
               </p>
             </section>

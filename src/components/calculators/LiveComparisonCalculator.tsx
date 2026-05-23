@@ -256,7 +256,7 @@ export default function LiveComparisonCalculator({ locale = 'en', onSelectModel 
 
           {/* Status */}
           <div className="px-3 text-[10px] text-gray-600">
-            {isZh ? '数据来自 OpenRouter 静态同步' : 'Static OpenRouter pricing'}
+            {isZh ? '手动维护价格数据' : 'Manual pricing data'}
           </div>
         </div>
       </aside>
@@ -462,7 +462,7 @@ export default function LiveComparisonCalculator({ locale = 'en', onSelectModel 
               ? `${groupedForRender.length > 0 ? groupedForRender.reduce((s, g) => s + g.models.length, 0) : 0} / ${models.length} 个模型`
               : `${groupedForRender.length > 0 ? groupedForRender.reduce((s, g) => s + g.models.length, 0) : 0} of ${models.length} models`}
           </span>
-          <span>{isZh ? '数据来自 OpenRouter 静态同步' : 'via OpenRouter static sync'}</span>
+          <span>{isZh ? '根据官方公开价格手动维护' : 'manually maintained from public provider pricing'}</span>
         </div>
       </div>
     </div>

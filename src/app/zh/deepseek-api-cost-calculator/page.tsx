@@ -7,7 +7,7 @@ import Footer from '@/components/layout/Footer';
 export const metadata = {
   title: 'DeepSeek API 成本计算器 - 估算 DeepSeek 定价',
   description:
-    '计算 DeepSeek API 的调用成本，支持 Chat、Reasoner 模型。免费在线计算器。',
+    '计算 DeepSeek API 的调用成本，支持 V4 Pro、V4 Flash 模型。免费在线计算器。',
   alternates: {
     canonical: 'https://aiapicost.tools/zh/deepseek-api-cost-calculator',
     languages: { en: 'https://aiapicost.tools/deepseek-api-cost-calculator', zh: 'https://aiapicost.tools/zh/deepseek-api-cost-calculator' },
@@ -17,14 +17,14 @@ export const metadata = {
 export default function DeepSeekApiCostCalculatorZh() {
   const faqItems = [
     {
-      question: 'DeepSeek Chat 多少钱？',
+      question: 'DeepSeek V4 Flash 多少钱？',
       answer:
-        'DeepSeek Chat 每百万输入 token 收费 $0.28，每百万输出 token 收费 $0.42。缓存命中为每百万 token $0.028。',
+        'DeepSeek V4 Flash 每百万输入 token 收费 $0.14，每百万输出 token 收费 $0.28。缓存命中为每百万 token $0.0028。',
     },
     {
       question: 'DeepSeek Reasoner 价格是多少？',
       answer:
-        'DeepSeek Reasoner 使用当前 OpenRouter 跟踪价格：每百万输入 token $0.28，每百万输出 token $0.42。',
+        'DeepSeek V4 价格根据公开供应商价格手动维护，DeepSeek V4 Flash 每百万输入 token $0.14，每百万输出 token $0.28。',
     },
     {
       question: 'DeepSeek 缓存定价如何运作？',
@@ -44,7 +44,7 @@ export default function DeepSeekApiCostCalculatorZh() {
               DeepSeek API 成本计算器
             </h1>
             <p className="text-lg text-gray-400">
-              计算 DeepSeek API 的调用成本，支持 Chat、Reasoner 模型
+              计算 DeepSeek API 的调用成本，支持 V4 Pro、V4 Flash 模型
             </p>
           </div>
         </section>

@@ -81,7 +81,7 @@ export default function ContactPage() {
                   },
                   {
                     q: 'How accurate is the pricing data?',
-                    a: "We source pricing from OpenRouter's official Models endpoint and refresh it regularly. However, providers may update pricing at any time, so always verify with the official provider documentation.",
+                    a: "We manually maintain pricing from official and public provider pricing. However, providers may update pricing at any time, so always verify with the official provider documentation.",
                   },
                   {
                     q: 'Can I suggest a new model or provider?',

@@ -39,14 +39,14 @@ const pageMetadata: Record<string, Record<Locale, PageMetadata>> = {
   'gpt-api-cost-calculator': {
     en: {
       title: 'GPT API Cost Calculator - Estimate OpenAI GPT Pricing',
-      description: 'Calculate OpenAI GPT API costs for GPT-4o, o1, and o3 models. Free online calculator.',
-      keywords: ['gpt api cost calculator', 'openai pricing', 'gpt-4o cost', 'openai api pricing'],
+      description: 'Calculate OpenAI GPT API costs for GPT-5.5, GPT-5.4, and GPT-5.4 Mini models. Free online calculator.',
+      keywords: ['gpt api cost calculator', 'openai pricing', 'gpt-5.4 cost', 'openai api pricing'],
       canonicalPath: '/gpt-api-cost-calculator',
     },
     zh: {
       title: 'GPT API 成本计算器 - 估算 OpenAI GPT 定价',
-      description: '计算 OpenAI GPT API 的调用成本，支持 GPT-4o、o1、o3 模型。免费在线计算器。',
-      keywords: ['GPT API 成本计算器', 'OpenAI 定价', 'GPT-4o 成本', 'OpenAI API 价格'],
+      description: '计算 OpenAI GPT API 的调用成本，支持 GPT-5.5、GPT-5.4 和 GPT-5.4 Mini 模型。免费在线计算器。',
+      keywords: ['GPT API 成本计算器', 'OpenAI 定价', 'GPT-5.4 成本', 'OpenAI API 价格'],
       canonicalPath: '/zh/gpt-api-cost-calculator',
     },
   },

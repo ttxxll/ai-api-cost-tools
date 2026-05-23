@@ -80,7 +80,7 @@ export default function ZhHome() {
                 {
                   step: '1',
                   title: '选择模型',
-                  desc: '从 OpenAI、Anthropic、Google、DeepSeek、Mistral 和 xAI 的 18+ 个 AI 模型中选择。每个模型都显示其每 Token 定价。',
+                  desc: '从 OpenAI、Anthropic、Google、DeepSeek、Mistral 和 xAI 的 17 个 AI 模型中选择。每个模型都显示其每 Token 定价。',
                 },
                 {
                   step: '2',
@@ -111,7 +111,7 @@ export default function ZhHome() {
             <div className="flex items-center gap-3 mb-6">
               <h2 className="text-xl font-bold text-white">实时模型价格</h2>
               <span className="text-[10px] text-gray-500 bg-white/[0.03] px-2 py-0.5 rounded-full border border-white/[0.06]">
-                数据来自 OpenRouter
+                手动维护价格
               </span>
             </div>
             <LiveComparisonCalculator locale="zh" onSelectModel={handleSelectModel} />
@@ -127,7 +127,7 @@ export default function ZhHome() {
             </p>
             <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
               {[
-                { icon: '📊', title: '18 个模型', desc: '所有主要供应商一站式比较' },
+                { icon: '📊', title: '17 个模型', desc: '所有主要供应商一站式比较' },
                 { icon: '⚡', title: '实时计算', desc: '输入即出结果' },
                 { icon: '🔄', title: '多种单位', desc: 'Token、单词、字符' },
                 { icon: '💰', title: '完全免费', desc: '无需注册' },
@@ -151,7 +151,7 @@ export default function ZhHome() {
             </p>
             <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
               {[
-                { name: 'OpenAI', models: 'GPT-4o, GPT-5, o3', desc: '领先供应商，提供适用于文本、代码和多模态任务的多功能模型。' },
+                { name: 'OpenAI', models: 'GPT-5.5, GPT-5.4', desc: '领先供应商，提供适用于文本、代码和多模态任务的多功能模型。' },
                 { name: 'Anthropic', models: 'Claude 4.7, Sonnet, Opus', desc: '以安全为导向的模型，具有强大的推理能力和长上下文窗口。' },
                 { name: 'Google', models: 'Gemini 3.1 Flash, Pro', desc: '高性能模型，具有竞争力的定价和大上下文支持。' },
                 { name: 'DeepSeek', models: 'DeepSeek V4', desc: '具有强大编码能力的成本效益型模型，支持缓存折扣。' },
@@ -179,7 +179,7 @@ export default function ZhHome() {
               {[
                 {
                   q: '成本估算有多准确？',
-                  a: '我们的定价数据来自 OpenRouter 官方 Models 端点并定期刷新。基于我们掌握的定价数据，计算在数学上是精确的。但供应商可能随时更新定价，因此建议在做出财务决定前以官方文档为准。',
+                  a: '我们的定价数据根据官方和公开供应商价格手动维护。基于我们掌握的定价数据，计算在数学上是精确的。但供应商可能随时更新定价，因此建议在做出财务决定前以官方文档为准。',
                 },
                 {
                   q: '支持哪些 AI 供应商？',

@@ -105,6 +105,10 @@ export default function BatchApiCostEstimatorZh() {
                         value: formatTokens(result.totalTokens),
                       },
                       {
+                        label: '计价模式',
+                        value: result.usedBatchPricing ? '批量价格' : '标准价格',
+                      },
+                      {
                         label: '输入成本',
                         value: `$${formatCost(result.inputCost)}`,
                       },
@@ -116,6 +120,10 @@ export default function BatchApiCostEstimatorZh() {
                         label: '总成本',
                         value: `$${formatCost(result.totalCost)}`,
                         highlight: true,
+                      },
+                      {
+                        label: result.isBatchSupported ? '批量节省' : '批量支持',
+                        value: result.isBatchSupported ? `$${formatCost(result.savings)}` : '暂不支持',
                       },
                       {
                         label: '预估时间',
